@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- service -->
+<head>
+	<title>Elector Service - HashDagger</title> 
+	<link rel="stylesheet" type="text/css" href="http://sanfoura.alixsys.com/slim/2008/service-descriptor.css" />
+	<script src="http://sanfoura.alixsys.com/slim/2008/service-descriptor.js"></script>
+</head>
+<body>
+<h1>Save an Elector</h1>
+<p>Takes all the information about an elector and saves it</p>
+
+ <form action="http://afkar.tn/elector/" method="post">
+  <fieldset><legend>101</legend>
+  <input name="begin-101" type="text" />
+  <input name="end-101" type="text" />
+  <input name="opened-door" type="text" />
+  <input name="answered-questions" type="text" />
+  </fieldset>
+
+
+  <fieldset><legend>House</legend>
+  <input name="region" type="text" />
+  <input name="round" type="text" />
+  <input name="street" type="text" />
+  <input name="building-num" type="text" />
+  <input name="level-num" type="text" />
+  <input name="house-num" type="text" />
+  </fieldset>
+
+  <fieldset><legend>Contact</legend>
+  <input name="name" type="text" />
+  <input name="age" type="text" />
+  <input name="phone" type="text" />
+  <input name="email" type="text" />
+  </fieldset>
+
+  <fieldset><legend>Vote</legend>
+  <input name="will-vote" type="text" />
+  <input name="for-party" type="text" />
+  <input name="for-independent" type="text" />
+  <input name="reason" type="text" />
+  <input name="supporter" type="text" />
+  <input name="volunteer" type="text" />
+  <input name="note" type="text" />
+  </fieldset>
+
+ </form>
+
+<h1>Display and Elector</h1>
+<p>Takes an elector ID and gives back card</p>
+
+ <form action="http://afkar.tn/elector/" method="get">
+  <input name="id" type="text" />
+ </form>
+
+<h1>Search for Electors</h1>
+<p>Takes a user ID and gives back a list of the electors he entered</p>
+
+ <form action="http://afkar.tn/elector/search/" method="get">
+  <input name="id" type="text" />
+ </form>
+
+</body>
+</html>
+
