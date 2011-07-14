@@ -219,9 +219,15 @@ note</string>
        <double>140.0</double> 
        <double>440.0</double> 
        <double>100.0</double> 
-       <double>60.0</double> 
+       <double>80.0</double> 
       </void> 
      </object> 
+    </void> 
+    <void property="methods"> 
+     <void property="text"> 
+      <string>encryptID()
+decryptID()</string> 
+     </void> 
     </void> 
     <void property="name"> 
      <void property="text"> 
