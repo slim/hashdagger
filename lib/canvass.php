@@ -11,12 +11,10 @@ class Canvass
 	public $end;
 	public $opened_door;
 	public $answered_questions;
-	public $place;
 
-	function __construct($place)
+	function __construct()
 	{
-		$this->id = uniqid();
-		$this->place = $place;
+		$this->id = uniqid();		
 	}
 
 	function insert()
@@ -39,6 +37,20 @@ class Canvass
 		$query->bindValue(':id', $this->id);
 		$query->bindValue(':person_id', $person->id);
 		$query->execute();
+	}
+	
+	function getData($data)
+	{
+		$this->begin = $data['canvass-begin']; 
+		$this->end   = $data['canvass-end']; 
+		if (!$data['door-closed']) $this->opened_door = date("c");
+		if ($data['answered-questions']) $this->answered_questions = date("c");
+		$this->address_region   = $data['region'];
+		$this->address_district = $data['district'];
+		$this->address_street   = $data['street'];
+		$this->address_building = $data['building-num'];
+		$this->address_level	= $data['level-num'];
+		$this->address_house    = $_POST['house-num'];
 	}
 
 } 

@@ -1,5 +1,3 @@
--- --------------------------------------------------------
-
 -- 
 -- Structure de la table `canvass`
 -- 
@@ -14,6 +12,12 @@ CREATE TABLE `canvass` (
   `end` datetime default NULL,
   `opened_door` datetime default NULL,
   `answered_questions` datetime default NULL,
+  `address_region` varchar(50) default NULL,
+  `address_district` varchar(50) default NULL,
+  `address_street` varchar(50) default NULL,
+  `address_building` varchar(5) default NULL,
+  `address_level` varchar(5) default NULL,
+  `address_house` varchar(5) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB;
 
@@ -37,22 +41,5 @@ CREATE TABLE `person` (
   `is_supporter` datetime default NULL,
   `is_volunteer` datetime default NULL,
   `note` varchar(150) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `place`
--- 
-
-CREATE TABLE `place` (
-  `id` varchar(50) NOT NULL,
-  `region` varchar(50) default NULL,
-  `district` varchar(50) default NULL,
-  `street` varchar(50) default NULL,
-  `building` varchar(5) default NULL,
-  `level` varchar(5) default NULL,
-  `house` varchar(5) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB;
