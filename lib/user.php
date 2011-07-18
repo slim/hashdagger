@@ -41,46 +41,39 @@ class User
     
     public static function sql_select($options = NULL)
   	{
-  		$query = "select * from users $options";
+  		$query = "select * from person $options";
   		return $query;
   	}
 
-  	public function toSQLinsert()
-  	{
-  	  $id = $this->id;
-  	  $password = $this->password;
-      $name = $this->name;
-      $email = $this->email;
-      
-      return "insert into users (id, pass, name, email) values ('$id', '$password', '$name', '$email')";
-  	}
   	
   	public static function select($options = NULL)
 	{
-	   $query = self::sql_select($options);
+	   $query = self::sql_select($options);	   
 	   $result = self::$db->query($query);
 	   $users = array();
 	   	foreach ($result as $entry) {
-	   		$user = new User($entry['id']);
-	   		$user->password = $entry['pass'];
-       		$user->name = $entry['designation'];
+	   		$user = new User($entry['login']);
+	   		$user->password = $entry['password'];
+       		$user->name = $entry['name'];
 			if ($entry['role']) {
        			$user->role = $entry['role'];
 			}
-       		$user->email = $entry['email'];
+       		$user->email = $entry['mail'];
 
 	   		$users [] = $user;   
 	    }        
 	    return $users;
     }
+
+    
     
     static function load($id, $password = NULL)
   	{
 		if ($password) {
-			list($user) = self::select("where (code='$id' or email='$id' or id='$id') and pass='$password'");
+			list($user) = self::select("where (login='$id') and password='$password'");
 		}
 		else {
-			list($user) = self::select("where id='$id'");
+			list($user) = self::select("where login='$id'");
 		}
   		return $user;
   	}
@@ -89,7 +82,7 @@ class User
 	{
 		$id = "'".$this->id."'";
 		$pass = "'$pass'";
-		$query = "update users set pass=$pass where id=$id";
+		$query = "update person set password=$pass where login=$id";
 		self::$db->exec($query);
 	}
         
@@ -104,7 +97,7 @@ class User
 	{
 		$id = $this->id;
 		$password = $this->password;
-		$query = "select * from users where id='$id' and pass='$password'";
+		$query = "select login from person where login='$id' and password='$password'";
       	$result = self::$db->query($query);
 		if (!$result->fetch()) {
 			return false;

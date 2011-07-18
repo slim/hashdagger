@@ -29,11 +29,14 @@ CREATE TABLE `canvass` (
 
 CREATE TABLE `person` (
   `id` varchar(50) NOT NULL,
+  `user_id` varchar(50) NOT NULL,
+  `login` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `is_user` datetime NOT NULL,
   `name` varchar(50) default NULL,
   `age` int(11) default NULL,
   `phone` varchar(50) default NULL,
   `mail` varchar(50) default NULL,
-  `place_id` varchar(50) default NULL,
   `will_vote` datetime default NULL,
   `for_party` datetime default NULL,
   `for_independent` datetime default NULL,

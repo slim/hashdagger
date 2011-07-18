@@ -2,9 +2,12 @@
 	require "../../../ini.php";
 	require "../../../lib/activerecord.php";
 	require "../../../lib/person.php";
+	require "../../../lib/user.php";
 	ActiveRecord::$db = $ini['DB'];
 	Person::$db = $ini['DB'];
-
+	User::$db = $ini['DB'];	
+	$USER = User::httpAuth();
+	
 	$persons = Person::selectByUser($_GET['user_id']);
 
 	?>
