@@ -1,0 +1,1 @@
+Hashdagger est un logiciel de gestion de volontaires
