@@ -40,7 +40,7 @@
 	foreach($persons AS $person)
 	{
 		echo "<tr>";
-		echo "<td>".$person->name."</td>";
+		echo '<td><a href="../../enter/person/?person_id='.$person->id.'">'.$person->name.'</a></td>';
 		echo "<td>".$person->age."</td>";
 		echo "<td>".$person->phone."</td>";
 		echo "<td>".$person->mail."</td>";

@@ -32,7 +32,7 @@ CREATE TABLE `person` (
   `user_id` varchar(50) NOT NULL,
   `login` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `is_user` datetime NOT NULL,
+  `is_user` datetime default NULL,
   `name` varchar(50) default NULL,
   `age` int(11) default NULL,
   `phone` varchar(50) default NULL,

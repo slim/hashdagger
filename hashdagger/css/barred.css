@@ -38,6 +38,8 @@ label {
   display: block;
   padding: 10px;
 }
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+
 p label {
   float: right;
 }
