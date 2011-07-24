@@ -52,7 +52,8 @@ class User
 	   $result = self::$db->query($query);
 	   $users = array();
 	   	foreach ($result as $entry) {
-	   		$user = new User($entry['login']);
+	   		$user = new User($entry['id']);
+	   		$user->login = $entry['login'];
 	   		$user->password = $entry['password'];
        		$user->name = $entry['name'];
 			if ($entry['role']) {

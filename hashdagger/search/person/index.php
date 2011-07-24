@@ -1,4 +1,5 @@
 <?php
+	require "../../../includes/util.php";
 	require "../../../ini.php";
 	require "../../../lib/activerecord.php";
 	require "../../../lib/person.php";
@@ -7,7 +8,7 @@
 	Person::$db = $ini['DB'];
 	User::$db = $ini['DB'];	
 	$USER = User::httpAuth();
-	
+	if(!$_GET['user_id']) $_GET['user_id'] = $USER->id;
 	$persons = Person::selectByUser($_GET['user_id']);
 
 	?>
@@ -44,12 +45,12 @@
 		echo "<td>".$person->age."</td>";
 		echo "<td>".$person->phone."</td>";
 		echo "<td>".$person->mail."</td>";
-		echo "<td>".$person->will_vote."</td>";
-		echo "<td>".$person->for_party."</td>";
-		echo "<td>".$person->for_independent."</td>";
+		echo "<td align='center'>".checkBox($person->will_vote)."</td>";
+		echo "<td align='center'>".checkBox($person->for_party)."</td>";
+		echo "<td align='center'>".checkBox($person->for_independent)."</td>";
 		echo "<td>".$person->opinion."</td>";
-		echo "<td>".$person->is_supporter."</td>";
-		echo "<td>".$person->is_volunteer."</td>";
+		echo "<td align='center'>".checkBox($person->is_supporter)."</td>";
+		echo "<td align='center'>".checkBox($person->is_volunteer)."</td>";
 		echo "<td>".$person->note."</td>";
 		echo "</tr>";
 	}

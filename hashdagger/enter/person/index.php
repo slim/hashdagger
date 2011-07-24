@@ -1,4 +1,5 @@
 <?php 
+	require "../../../includes/util.php";
 	require "../../../ini.php";
 	require "../../../lib/activerecord.php";
 	require "../../../lib/person.php";
@@ -39,22 +40,22 @@
 
   <fieldset><legend>رأي</legend>
   <p>
-  <label>انتخاب<input name="will-vote" type="checkbox" <?php if($person->will_vote) echo 'checked' ?> /></label>
-  <label>الاحزاب<input name="for-party" type="checkbox" <?php if($person->for_party) echo 'checked' ?> /></label>
-  <label>القوائم المستقلة<input name="for-independent" type="checkbox" <?php if($person->for_independent) echo 'checked' ?> /></label>
+  <label>انتخاب<input name="will-vote" type="checkbox" <?php if(isChecked($person->will_vote)) echo 'checked' ?> /></label>
+  <label>الاحزاب<input name="for-party" type="checkbox" <?php if(isChecked($person->for_party)) echo 'checked' ?> /></label>
+  <label>القوائم المستقلة<input name="for-independent" type="checkbox" <?php if(isChecked($person->for_independent)) echo 'checked' ?> /></label>
   <label>لماذا؟<input name="reason" type="text" value="<?php echo $person->opinion ?>" /></label>
   </p>
   <p>
-  <label>مساند<input name="supporter" type="checkbox" <?php if($person->is_supporter) echo 'checked' ?> /></label>
-  <label>متطوع<input name="volunteer" type="checkbox" <?php if($person->is_volunteer) echo 'checked' ?>/></label>
+  <label>مساند<input name="supporter" type="checkbox" <?php if(isChecked($person->is_supporter)) echo 'checked' ?> /></label>
+  <label>متطوع<input name="volunteer" type="checkbox" <?php if(isChecked($person->is_volunteer)) echo 'checked' ?>/></label>
   <label>ملاحظة<input name="note" type="text" value="<?php echo $person->note ?>" /></label>
   </p>
   </fieldset>
   <?php if($_GET["person_id"]) { ?>
   <input type="hidden" name="person_id" value="<?php echo $_GET['person_id'] ?>" />
   <fieldset>
-  <legend>مستعمل البرنامج <input type="checkbox" class="is_user" name="is_user" id="is_user" <?php if($person->is_user) echo 'checked' ?> /> </legend>
-  <?php if($person->is_user == '0000-00-00 00:00:00') {?>
+  <legend>مستعمل البرنامج <input type="checkbox" class="is_user" name="is_user" id="is_user" <?php if(isChecked($person->is_user)) echo 'checked' ?> /> </legend>
+  <?php if(!isChecked($person->is_user)) {?>
   	<div class="user_bloc_empty">
   	هذا الشخص لا يستعمل البرنامج
   	</div>

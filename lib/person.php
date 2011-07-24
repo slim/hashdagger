@@ -8,14 +8,15 @@ class Person
 	public $id;
 	static $db;
 
-	function __construct()
+	function __construct($id=null)
 	{
-		$this->id = uniqid();
+		if($id) $this->id = $id;
 	}
 
 	function insert()
 	{
-		return self::$table->insert($this);
+		$this->id = uniqid();
+		return self::$table->insert($this);		
 	}
 	
 	function update()
@@ -67,7 +68,7 @@ class Person
 		}
 		else
 			$this->is_user = null;
-			
+		
 		if ($data['person_id']) $this->id = $data["person_id"];
 	}
 	
