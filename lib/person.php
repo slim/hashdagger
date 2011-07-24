@@ -21,11 +21,18 @@ class Person
 	
 	function update()
 	{
-		$query = self::$db->prepare('update person set user_id=:user_id, login=:login, password=:password, is_user=:is_user, name=:name, age=:age, phone=:phone, mail=:mail, will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note WHERE id=:id');
+		$query = 'update person set';
+		if($this->login && $this->password && $this->is_user)
+			$query.= ' login=:login, password=:password, is_user=:is_user,';
+		$query.= ' user_id=:user_id, name=:name, age=:age, phone=:phone, mail=:mail, will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note WHERE id=:id';
+		$query = self::$db->prepare($query);
 		$query->bindValue(':user_id', $this->user_id);
-		$query->bindValue(':login', $this->login);
-		$query->bindValue(':password', $this->password);
-		$query->bindValue(':is_user', $this->is_user);
+		if($this->login && $this->password && $this->is_user)
+		{
+			$query->bindValue(':login', $this->login);
+			$query->bindValue(':password', $this->password);
+			$query->bindValue(':is_user', $this->is_user);
+		}
 		$query->bindValue(':name', $this->name);
 		$query->bindValue(':age', $this->age);
 		$query->bindValue(':phone', $this->phone);
@@ -60,11 +67,11 @@ class Person
 		if ($data['supporter']) $this->is_supporter = date("c"); else $this->is_supporter = null;
 		if ($data['volunteer']) $this->is_volunteer = date("c"); else $this->is_volunteer = null;
 		$this->note = $data['note'];
-		if ($data['is_user']) 
+		if ($data['is_user'] && $data["login"] && $data["password"]) 
 		{
 			$this->is_user = date("c");
 			$this->login = $data["login"];
-			$this->password = $data["password"];
+			$this->password = MD5($data["password"]);
 		}
 		else
 			$this->is_user = null;

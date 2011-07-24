@@ -10,7 +10,7 @@
 	$USER = User::httpAuth();
 	
 	$person = new Person();
-	$person->getData($_POST);	
+	$person->getData($_POST);
 	$person->user_id = $USER->id;
 	if($person->id)
 		$person->update();

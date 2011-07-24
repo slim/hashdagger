@@ -71,7 +71,7 @@ class User
     static function load($id, $password = NULL)
   	{
 		if ($password) {
-			list($user) = self::select("where (login='$id') and password='$password'");
+			list($user) = self::select("where (login='$id') and password='".MD5($password)."'");
 		}
 		else {
 			list($user) = self::select("where login='$id'");
@@ -98,7 +98,7 @@ class User
 	{
 		$id = $this->id;
 		$password = $this->password;
-		$query = "select login from person where login='$id' and password='$password'";
+		$query = "select login from person where login='$id' and password='".MD5($password)."'";
       	$result = self::$db->query($query);
 		if (!$result->fetch()) {
 			return false;

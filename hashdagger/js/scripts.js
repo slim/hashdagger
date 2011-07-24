@@ -5,7 +5,12 @@ $(function(){
     rules: {
 			password: {
 				required: "#is_user:checked",
-				minlength: 5
+				minlength: 5,				
+			},
+			password2: {
+				required: "#is_user:checked",
+				minlength: 5,
+				equalTo: "#password"
 			},
 			login: {
 				required: "#is_user:checked",

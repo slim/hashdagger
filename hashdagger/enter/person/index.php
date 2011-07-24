@@ -54,16 +54,23 @@
   <?php if($_GET["person_id"]) { ?>
   <input type="hidden" name="person_id" value="<?php echo $_GET['person_id'] ?>" />
   <fieldset>
-  <legend>مستعمل البرنامج <input type="checkbox" class="is_user" name="is_user" id="is_user" <?php if(isChecked($person->is_user)) echo 'checked' ?> /> </legend>
   <?php if(!isChecked($person->is_user)) {?>
+  <legend>مستعمل البرنامج <input type="checkbox" class="is_user" name="is_user" id="is_user" <?php if(isChecked($person->is_user)) echo 'checked' ?> /> </legend>
   	<div class="user_bloc_empty">
   	هذا الشخص لا يستعمل البرنامج
   	</div>
+  	<div class="user_bloc" id="user_bloc">
+	<label>إسم التسجيل <input name="login" id="login" class="required" type="text" value="<?php echo $person->login ?>" /></label>
+	<label>كلمة السر<input name="password" id="password" type="password" value="" /></label>
+	<label>كلمة السر مرةً أخرى<input name="password2" id="password2" type="password" value="" /></label>
+	</div>  
+  <?php } else { ?>
+  <legend>مستعمل البرنامج </legend>
+    <div>
+  	هذا الشخص يستعمل البرنامج
+  	</div>
   <?php } ?>
-  <div class="user_bloc" id="user_bloc">
-  <label>إسم التسجيل<input name="login" id="login" class="required" type="text" value="<?php echo $person->login ?>" /></label>
-  <label>كلمة السر<input name="password" id="password" type="password" value="<?php echo $person->password ?>" /></label>
-  </div>  
+  
   </fieldset>
   <?php } ?>
   

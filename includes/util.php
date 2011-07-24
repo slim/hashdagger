@@ -1,7 +1,7 @@
 <?php
 function isChecked($datetime)
 {
-	if(trim($datetime) == "0000-00-00 00:00:00")
+	if(trim($datetime) == "0000-00-00 00:00:00" || !trim($datetime))
 		return false;
 	else 
 		return true;
