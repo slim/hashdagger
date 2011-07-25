@@ -23,7 +23,7 @@
 	<link rel="stylesheet" type="text/css" href="../../css/wforms.css" />
 	<script type="text/javascript" src="../../js/jquery.min.js"></script>
 	<script type="text/javascript" src="../../js/jquery.validate.js"></script>
-	<script type="text/javascript" src="../../js/scripts.js"></script>
+	<script type="text/javascript" src="scripts.js"></script>
 	
 </head>
 <body dir="rtl">
@@ -34,7 +34,7 @@
   <label>السم و اللقب<input class="required" name="person-name" id="name" type="text" value="<?php echo $person->name; ?>" /></label>
   <label>العمر<input class="digits" name="person-age" id="age" type="text" value="<?php echo $person->age ?>" /></label>
   <label>الهاتف<input dir="ltr" class="digits" name="person-phone" id="phone" type="text" value="<?php echo $person->phone ?>" /></label>
-  <label>البريد الالكتروني<input dir="ltr" class="email" name="person-mail" id="email" type="text" value="<?php echo $person->mail ?>" /></label>
+  <label>البريد الالكتروني<input dir="ltr" class="email required" name="person-mail" id="email" type="text" value="<?php echo $person->mail ?>" /></label>
   </p>
   </fieldset>
 
@@ -53,18 +53,14 @@
   </fieldset>
   <?php if($_GET["person_id"]) { ?>
   <input type="hidden" name="person_id" value="<?php echo $_GET['person_id'] ?>" />
+  <?php if($person->id === $USER->id) {?>
   <fieldset>
-  <?php if(!isChecked($person->is_user)) {?>
-  <legend>مستعمل البرنامج <input type="checkbox" class="is_user" name="is_user" id="is_user" <?php if(isChecked($person->is_user)) echo 'checked' ?> /> </legend>
-  	<div class="user_bloc_empty">
-  	هذا الشخص لا يستعمل البرنامج
-  	</div>
-  	<div class="user_bloc" id="user_bloc">
+  <legend>مستعمل البرنامج</legend>
 	<label>إسم التسجيل <input name="login" id="login" class="required" type="text" value="<?php echo $person->login ?>" /></label>
 	<label>كلمة السر<input name="password" id="password" type="password" value="" /></label>
 	<label>كلمة السر مرةً أخرى<input name="password2" id="password2" type="password" value="" /></label>
-	</div>  
-  <?php } else { ?>
+  <?php } else if (isChecked($person->is_user)) { ?>
+  <fieldset>
   <legend>مستعمل البرنامج </legend>
     <div>
   	هذا الشخص يستعمل البرنامج
