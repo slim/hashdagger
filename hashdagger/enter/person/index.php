@@ -34,7 +34,7 @@
   <label>السم و اللقب<input class="required" name="person-name" id="name" type="text" value="<?php echo $person->name; ?>" /></label>
   <label>العمر<input class="digits" name="person-age" id="age" type="text" value="<?php echo $person->age ?>" /></label>
   <label>الهاتف<input dir="ltr" class="digits" name="person-phone" id="phone" type="text" value="<?php echo $person->phone ?>" /></label>
-  <label>البريد الالكتروني<input dir="ltr" class="email required" name="person-mail" id="email" type="text" value="<?php echo $person->mail ?>" /></label>
+  <label>البريد الالكتروني<input dir="ltr" class="email" name="person-mail" id="email" type="text" value="<?php echo $person->mail ?>" /></label>
   </p>
   </fieldset>
 
