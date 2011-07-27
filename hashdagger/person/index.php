@@ -24,6 +24,6 @@
 	else
 		$person->insert();
 
-	print "<div class='message_notification'>تم تسجيل الناخب<div>";
+	print "<div class='message_notification'>تم تسجيل الناخب</div><br /><a class='bouton' href='../'>الرجوع إلى الصفحة الرئيسية</a>";
 ?>
 </body></html>

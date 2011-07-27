@@ -69,9 +69,6 @@
   </fieldset>
   <?php } ?>
   
-  <input type="submit" />
+  <p><button type="submit">تسجيل</button><button type="button" onclick="location.href='../..'">رجوع</button></p>
  </form>
-
-</body>
-</html>
 

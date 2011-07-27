@@ -21,6 +21,6 @@
 	$message .= "Login: ".$person->login."\nPassword: ".$person->password;
 
 	mail($person->mail, "Afkar - Vos codes d'accès", $message, "From: ".$USER->email);
-	print "<div class='message_notification'>تم إنشاء المستخدم و اعلامه عبر البريد الإلكتروني<div>";
+	print "<div class='message_notification'>تم إنشاء المستخدم و اعلامه عبر البريد الإلكتروني </div><br /><<a class='bouton' href='../../'>الرجوع إلى الصفحة الرئيسية</a>";
 ?>
 </body></html>

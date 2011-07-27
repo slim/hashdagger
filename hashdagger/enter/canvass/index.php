@@ -54,7 +54,7 @@
   </p>
   </fieldset>
 
-  <input type="submit" />
+  <p><button type="submit">تسجيل</button><button type="button" onclick="document.location.href='../..'">رجوع</button></p>
  </form>
 
 </body>
