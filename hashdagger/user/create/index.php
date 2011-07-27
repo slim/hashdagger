@@ -13,6 +13,6 @@
 	$person->becomeUser();
 	$message .= "Bonjour et bienvenue,\nVous pouvez vous connecter à votre compte sur: http://hd.afkar.tn/ \n";
 	$message .= "Login: ".$person->login."\nPassword: ".$person->password;
-	
-	mail($person->mail, "Afkar - Vos codes d'accès", $message, "From: ".$USER->mail);
+
+	mail($person->mail, "Afkar - Vos codes d'accès", $message, "From: ".$USER->email);
 ?>
