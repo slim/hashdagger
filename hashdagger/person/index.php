@@ -12,7 +12,7 @@
 	$person = new Person();
 	$person->getData($_POST);
 	$person->user_id = $USER->id;
-	if (!$person->name || !($person->phone || $person->email)) die("المعطيات غير كافية للتسجيل");
+	if (!$person->name && !($person->phone || $person->email)) die("المعطيات غير كافية للتسجيل");
 	if($person->id)
 		$person->update();
 	else

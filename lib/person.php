@@ -48,17 +48,18 @@ class Person
       	$result = $query->execute();
 	}
 	
-	function select($person_id)
+	static function selectById($person_id)
 	{
-		return self::$table->select("WHERE id='".$person_id."'");
+		$person = self::$table->select("WHERE id='".$person_id."'");
+		return $person[0];
 	}
 	
 	function getData($data)
 	{
 		$this->name  = $data['person-name'];
 		$this->age   = $data['person-age'];
-		$this->phone = $data['person-phone'];
-		$this->mail  = $data['person-mail'];
+		$this->phone = $data['phone'];
+		$this->mail  = $data['email'];
 			
 		if ($data['will-vote']) $this->will_vote = date("c"); else $this->will_vote = null;
 		if ($data['for-party']) $this->for_party = date("c"); else $this->for_party = null;
@@ -77,6 +78,24 @@ class Person
 			$this->is_user = null;
 		
 		if ($data['person_id']) $this->id = $data["person_id"];
+	}
+	
+	function becomeUser()
+	{
+		 $this->login = $this->mail;
+		 $this->password = substr(uniqid(), -5);
+		 $query = 'update person set';
+		 
+		 if($this->login && $this->password)
+			$query.= ' login=:login, password=:password, is_user=:is_user';
+		 $query .= ' WHERE id=:id';
+		 
+		 $query = self::$db->prepare($query);
+		 $query->bindValue(':is_user', date('c'));
+		 $query->bindValue(':login', $this->login);
+		 $query->bindValue(':password', $this->password);
+		 $query->bindValue(':id', $this->id);
+		 $result = $query->execute();
 	}
 	
 	static function selectByUser($user_id)
@@ -100,6 +119,7 @@ class Person
 			$person->is_supporter = $entry['is_supporter'];
 			$person->is_volunteer = $entry['is_volunteer'];
 			$person->note = $entry['note'];
+			$person->is_user = $entry['is_user'];
 	   		$persons [] = $person;   
 	    }
 	    

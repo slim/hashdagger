@@ -11,8 +11,7 @@
 	
 	if($_GET["person_id"])
 	{
-		$person = Person::select($_GET['person_id']);
-		$person = $person[0];
+		$person = Person::selectById($_GET['person_id']);
 	}
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -33,8 +32,8 @@
   <p>
   <label>السم و اللقب<input class="required" name="person-name" id="name" type="text" value="<?php echo $person->name; ?>" /></label>
   <label>العمر<input class="digits" name="person-age" id="age" type="text" value="<?php echo $person->age ?>" /></label>
-  <label>الهاتف<input dir="ltr" class="digits" name="person-phone" id="phone" type="text" value="<?php echo $person->phone ?>" /></label>
-  <label>البريد الالكتروني<input dir="ltr" class="email" name="person-mail" id="email" type="text" value="<?php echo $person->mail ?>" /></label>
+  <label>الهاتف<input dir="ltr" class="digits" name="phone" id="phone" type="text" value="<?php echo $person->phone ?>" /></label>
+  <label>البريد الالكتروني<input dir="ltr" class="email" name="email" id="email" type="text" value="<?php echo $person->mail ?>" /></label>
   </p>
   </fieldset>
 

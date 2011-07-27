@@ -34,6 +34,7 @@
 		<th>مساند</th>
 		<th>متطوع</th>
 		<th>ملاحظة</th>
+		<th></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -52,6 +53,10 @@
 		echo "<td align='center'>".checkBox($person->is_supporter)."</td>";
 		echo "<td align='center'>".checkBox($person->is_volunteer)."</td>";
 		echo "<td>".$person->note."</td>";
+		echo "<td>";
+		if(!isChecked($person->is_user) && $person->mail)
+			echo '<a href="../../user/create/?person_id='.$person->id.'">إنشاء مستخدم</a>';
+		echo "</td>";
 		echo "</tr>";
 	}
 ?>
