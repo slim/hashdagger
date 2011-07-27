@@ -1,3 +1,9 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Canvass - HashDagger</title> 
+	<link rel="stylesheet" type="text/css" href="../css/barred.css" />
+</head>
+<body dir="rtl">
 <?php
 	require "../../ini.php";
 	require "../../lib/activerecord.php";
@@ -9,8 +15,6 @@
 	User::$db = $ini['DB'];
 	
 	$USER = User::httpAuth();
-
-print_r($_POST);
 
 if ($_POST['canvass-begin'] && $_POST['canvass-end']) {
 	$canvass = new Canvass();
@@ -24,3 +28,6 @@ if ($canvass->answered_questions) {
 	
 	$canvass->talkedTo($person);
 }
+	print "<div class='message_notification'>تم تسجيل الناخب<div>";
+?>
+</body></html>

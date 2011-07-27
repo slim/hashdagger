@@ -1,3 +1,9 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Person - HashDagger</title> 
+	<link rel="stylesheet" type="text/css" href="../../css/barred.css" />
+</head>
+<body dir="rtl">
 <?php
 	require "../../../ini.php";
 	require "../../../lib/activerecord.php";
@@ -15,4 +21,6 @@
 	$message .= "Login: ".$person->login."\nPassword: ".$person->password;
 
 	mail($person->mail, "Afkar - Vos codes d'accès", $message, "From: ".$USER->email);
+	print "<div class='message_notification'>تم إنشاء المستخدم و اعلامه عبر البريد الإلكتروني<div>";
 ?>
+</body></html>
