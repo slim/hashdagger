@@ -12,6 +12,12 @@ $(function(){
 			},
 			login: {
 				minlength: 4
+			},
+			email: {
+				required: "#phone:blank"
+			},
+			phone: {
+				required: "#email:blank"
 			}
 	}
     });
