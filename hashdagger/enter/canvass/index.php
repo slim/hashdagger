@@ -35,8 +35,8 @@
   <p>
   <label>السم و اللقب<input name="person-name" type="text" /></label>
   <label>العمر<input name="person-age" type="text" /></label>
-  <label>الهاتف<input dir="ltr" name="person-phone" type="text" /></label>
-  <label>البريد الالكتروني<input dir="ltr" name="person-mail" type="text" /></label>
+  <label>الهاتف<input dir="ltr" name="phone" type="text" /></label>
+  <label>البريد الالكتروني<input dir="ltr" name="email" type="text" /></label>
   </p>
   </fieldset>
 
