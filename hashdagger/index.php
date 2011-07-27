@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/wforms.css" />
 </head>
 <body dir="rtl">
-<p>
+<p id="entete">
 <a href="./enter/person/" class="bouton">تسجيل ناخب</a>
 <a href="./search/person/" class="bouton">قائمة الناخبين</a>
 <a href="./enter/canvass/" class="bouton">حشد</a>
