@@ -4,6 +4,32 @@
 	<title>Canvass - HashDagger</title> 
 	<link rel="stylesheet" type="text/css" href="../../css/barred.css" />
 	<link rel="stylesheet" type="text/css" href="../../css/wforms.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/jquery-ui.css" />
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function () {
+		alert('fdfdf');
+		$('#canvass-end').datetimepicker();
+		$('#canvass-begin').datetimepicker();
+	});
+	</script>
+	<style type="text/css"> 
+			
+			#ui-datepicker-div{ font-size: 80%;}
+			
+			/* css for timepicker */
+			.ui-timepicker-div th{border-style: none;}
+			.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+			.ui-timepicker-div dl{ text-align: left; }
+			.ui-timepicker-div dl dt{ height: 25px; border-bottom: none; float:none; margin-top:none;}
+			.ui-timepicker-div dl dd{ margin: -25px 10px 10px 65px; clear:left;}
+			.ui-timepicker-div table tr td { font-size: 90%; border-spacing: 13px; clear: none; border-width:10px;}
+			.ui-timepicker-div table {clear: none; border-spacing:10px; border-width:10px;}
+			
+		</style> 
+	
 </head>
 <body dir="rtl">
 <h1>حشد</h1>
@@ -11,8 +37,8 @@
  <form action="../../canvass/" method="post">
   <fieldset><legend>حشد</legend>
   <p>
-  <label>البداية <input dir="ltr" name="canvass-begin" type="text" /></label>
-  <label>النهاية <input dir="ltr" name="canvass-end" type="text" /></label>
+  <label>البداية <input dir="ltr" name="canvass-begin" id="canvass-begin" type="text" /></label>
+  <label>النهاية <input dir="ltr" name="canvass-end" id="canvass-end" type="text" /></label>
   </p>
   <fieldset><legend>المنزل</legend>
   <p>
