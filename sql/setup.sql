@@ -19,7 +19,7 @@ CREATE TABLE `canvass` (
   `address_level` varchar(5) default NULL,
   `address_house` varchar(5) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB;
+);
 
 -- --------------------------------------------------------
 
@@ -44,5 +44,7 @@ CREATE TABLE `person` (
   `is_supporter` datetime default NULL,
   `is_volunteer` datetime default NULL,
   `note` varchar(150) default NULL,
+  `user_key` varchar(50) NOT NULL,
+  `creator_key` varchar(50) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB;
+);
