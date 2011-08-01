@@ -56,6 +56,8 @@
 		echo "<td>";
 		if(!isChecked($person->is_user) && $person->mail)
 			echo '<a href="../../user/create/?person_id='.$person->id.'">إنشاء مستخدم</a>';
+		else if(isChecked($person->is_user))
+			echo '<a href="../../password/generate/?person_id='.$person->id.'">تغير كلمة العبور</a>';
 		echo "</td>";
 		echo "</tr>";
 	}
