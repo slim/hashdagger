@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<java version="1.6.0_22" class="java.beans.XMLDecoder"> 
+<java version="1.6.0_26" class="java.beans.XMLDecoder"> 
  <object class="com.horstmann.violet.UseCaseDiagramGraph"> 
   <void method="addNode"> 
    <object id="ActorNode0" class="com.horstmann.violet.ActorNode"> 
@@ -7,7 +7,7 @@
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
        <double>500.0</double> 
-       <double>250.0</double> 
+       <double>260.0</double> 
        <double>80.0</double> 
        <double>80.0</double> 
       </void> 
@@ -16,7 +16,7 @@
     <void property="bounds"> 
      <void method="setRect"> 
       <double>500.0</double> 
-      <double>250.0</double> 
+      <double>260.0</double> 
       <double>80.0</double> 
       <double>80.0</double> 
      </void> 
@@ -30,7 +30,7 @@
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>500.0</double> 
-     <double>250.0</double> 
+     <double>260.0</double> 
     </void> 
    </object> 
   </void> 
@@ -158,7 +158,7 @@ I enrolled</string>
     </void> 
     <void property="name"> 
      <void property="text"> 
-      <string>enter Voters
+      <string>enter a Voter
 I contacted</string> 
      </void> 
     </void> 
@@ -167,6 +167,142 @@ I contacted</string>
     <void method="setLocation"> 
      <double>360.0</double> 
      <double>190.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="UseCaseNode4" class="com.horstmann.violet.UseCaseNode"> 
+    <void property="bounds"> 
+     <object class="java.awt.geom.Rectangle2D$Double"> 
+      <void method="setRect"> 
+       <double>250.0</double> 
+       <double>130.0</double> 
+       <double>120.0</double> 
+       <double>40.0</double> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="bounds"> 
+     <void method="setRect"> 
+      <double>250.0</double> 
+      <double>130.0</double> 
+      <double>120.0</double> 
+      <double>40.0</double> 
+     </void> 
+    </void> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Become
+a User</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>250.0</double> 
+     <double>130.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="UseCaseNode5" class="com.horstmann.violet.UseCaseNode"> 
+    <void property="bounds"> 
+     <object class="java.awt.geom.Rectangle2D$Double"> 
+      <void method="setRect"> 
+       <double>450.0</double> 
+       <double>380.0</double> 
+       <double>120.0</double> 
+       <double>40.0</double> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="bounds"> 
+     <void method="setRect"> 
+      <double>450.0</double> 
+      <double>380.0</double> 
+      <double>120.0</double> 
+      <double>40.0</double> 
+     </void> 
+    </void> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Change
+my Info</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>450.0</double> 
+     <double>380.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="UseCaseNode6" class="com.horstmann.violet.UseCaseNode"> 
+    <void property="bounds"> 
+     <object class="java.awt.geom.Rectangle2D$Double"> 
+      <void method="setRect"> 
+       <double>340.0</double> 
+       <double>330.0</double> 
+       <double>120.0</double> 
+       <double>40.0</double> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="bounds"> 
+     <void method="setRect"> 
+      <double>340.0</double> 
+      <double>330.0</double> 
+      <double>120.0</double> 
+      <double>40.0</double> 
+     </void> 
+    </void> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Change
+my Password</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>340.0</double> 
+     <double>330.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="UseCaseNode7" class="com.horstmann.violet.UseCaseNode"> 
+    <void property="bounds"> 
+     <object class="java.awt.geom.Rectangle2D$Double"> 
+      <void method="setRect"> 
+       <double>640.0</double> 
+       <double>370.0</double> 
+       <double>120.0</double> 
+       <double>40.0</double> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="bounds"> 
+     <void method="setRect"> 
+      <double>640.0</double> 
+      <double>370.0</double> 
+      <double>120.0</double> 
+      <double>40.0</double> 
+     </void> 
+    </void> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Change a User&apos;s 
+Password</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>640.0</double> 
+     <double>370.0</double> 
     </void> 
    </object> 
   </void> 
@@ -188,6 +324,26 @@ I contacted</string>
   <void method="connect"> 
    <object class="com.horstmann.violet.UseCaseRelationshipEdge"/> 
    <object idref="UseCaseNode3"/> 
+   <object idref="ActorNode0"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.UseCaseRelationshipEdge"/> 
+   <object idref="UseCaseNode4"/> 
+   <object idref="UseCaseNode3"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.UseCaseRelationshipEdge"/> 
+   <object idref="UseCaseNode5"/> 
+   <object idref="ActorNode0"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.UseCaseRelationshipEdge"/> 
+   <object idref="UseCaseNode6"/> 
+   <object idref="ActorNode0"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.UseCaseRelationshipEdge"/> 
+   <object idref="UseCaseNode7"/> 
    <object idref="ActorNode0"/> 
   </void> 
  </object> 
