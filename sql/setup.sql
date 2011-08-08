@@ -48,3 +48,5 @@ CREATE TABLE `person` (
   `creator_key` varchar(50) NOT NULL,
   PRIMARY KEY  (`id`)
 );
+
+insert into person (id, name, login, password, is_user, user_key) values (1, "First User", "h", md5('mosta9ella'), now(), aes_encrypt('mefta7', 'mosta9ella'));
