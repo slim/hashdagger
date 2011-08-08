@@ -72,7 +72,19 @@ class User
     static function load($id, $password = NULL)
   	{
 		if ($password) {
-			list($user) = self::select("where (login='$id') and password='".MD5($password)."'");
+			$query = "select id, login, password, name, mail, AES_DECRYPT(user_key, '".$password."') AS user_key from person where (login='$login') and password='".MD5($password)."'";   
+		    $result = self::$db->query($query);
+		    $entry = $result->fetch();
+			if (!$entry) return NULL;
+	   		$user = new User($entry['id']);
+	   		$user->login = $entry['login'];
+       		$user->name = $entry['name'];
+       		$user->user_key = $entry['user_key'];
+			if ($entry['role']) {
+       			$user->role = $entry['role'];
+			}
+       		$user->email = $entry['mail'];		          			
+			
 		}
 		else {
 			list($user) = self::select("where login='$id'");
@@ -126,21 +138,7 @@ class User
 		$password = $_SERVER['PHP_AUTH_PW'];
 
 		if ($login && "nobody" != $login && $password) {
-			
-			$query = "select id, login, password, name, mail, AES_DECRYPT(user_key, '".$password."') AS user_key from person where (login='$login') and password='".MD5($password)."'";   
-		    $result = self::$db->query($query);
-		    $entry = $result->fetch();
-	   		$user = new User($entry['id']);
-	   		$user->login = $entry['login'];
-	   		//$user->password = $entry['password'];
-       		$user->name = $entry['name'];
-       		$user->user_key = $entry['user_key'];
-			if ($entry['role']) {
-       			$user->role = $entry['role'];
-			}
-       		$user->email = $entry['mail'];		          			
-			
-			//$user = User::load($login, $passwd);
+			$user = User::load($login, $passwd);
 			$user->password = $password;
 			if ($user instanceof User && $user->isOneOf($role)) {
 				return $user;
