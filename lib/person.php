@@ -45,10 +45,8 @@ class Person
 	{
 		global $USER;
 		
-		$query = 'update person set';
-		if($this->login && $this->password)
-			$query.= ' login=:login, password=:password, is_user=:is_user,';
-		$query.= ' user_id=:user_id, name=AES_ENCRYPT(:name, '.$USER->user_key.'), age=:age, phone=AES_ENCRYPT(:phone, '.$USER->user_key.'), mail=AES_ENCRYPT(:mail, '.$USER->user_key.'), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note WHERE id=:id';
+		$query = "update person set";
+		$query.= " name=AES_ENCRYPT(:name, '".$USER->user_key."'), age=:age, phone=AES_ENCRYPT(:phone, '".$USER->user_key."'), mail=AES_ENCRYPT(:mail, '".$USER->user_key."'), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note WHERE id=:id";
 		$query = self::$db->prepare($query);
 		
 		$query->bindValue(':name', $this->name);
@@ -63,7 +61,9 @@ class Person
 		$query->bindValue(':is_volunteer', $this->is_volunteer);
 		$query->bindValue(':note', $this->note);
 		$query->bindValue(':id', $this->id);
+
       	$result = $query->execute();
+      	
 	}
 	
 	static function selectById($person_id)
