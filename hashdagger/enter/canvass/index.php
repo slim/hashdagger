@@ -10,7 +10,6 @@
 	<script type="text/javascript" src="../../js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript">
 	jQuery(document).ready(function () {
-		alert('fdfdf');
 		$('#canvass-end').datetimepicker();
 		$('#canvass-begin').datetimepicker();
 	});
