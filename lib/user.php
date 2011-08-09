@@ -72,9 +72,12 @@ class User
     static function load($id, $password = NULL)
   	{
 		if ($password) {
-			$query = "select id, login, password, name, mail, AES_DECRYPT(user_key, '".$password."') AS user_key from person where (login='$login') and password='".MD5($password)."'";   
-		    $result = self::$db->query($query);
-		    $entry = $result->fetch();
+			$query = self::$db->prepare("select id, login, password, name, mail, AES_DECRYPT(user_key, :key_password) AS user_key from person where (login=:login) and password=MD5(:password)");
+			$query->bindValue(':key_password', $password);
+			$query->bindValue(':password', $password);
+			$query->bindValue(':login', $id);
+			$query->execute();
+		    $entry = $query->fetch();
 			if (!$entry) return NULL;
 	   		$user = new User($entry['id']);
 	   		$user->login = $entry['login'];
