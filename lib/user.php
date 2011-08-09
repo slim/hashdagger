@@ -87,7 +87,6 @@ class User
        			$user->role = $entry['role'];
 			}
        		$user->email = $entry['mail'];		          			
-			
 		}
 		else {
 			list($user) = self::select("where login='$id'");
@@ -141,12 +140,13 @@ class User
 		$password = $_SERVER['PHP_AUTH_PW'];
 
 		if ($login && "nobody" != $login && $password) {
-			$user = User::load($login, $passwd);
+			$user = User::load($login, $password);
 			$user->password = $password;
 			if ($user instanceof User && $user->isOneOf($role)) {
 				return $user;
 			}
 		}
+		
 		$realm = "Application";
 		Header("WWW-Authenticate: Basic realm=\"$realm\"");
 		Header("HTTP/1.0 401 Unauthorized");

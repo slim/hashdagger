@@ -20,8 +20,8 @@ class Person
 		
 		global $USER;
 		
-		$query = 'insert person set';
-		$query.= ' id=:id, user_id=:user_id, name=AES_ENCRYPT(:name, '.$USER->user_key.'), age=:age, phone=AES_ENCRYPT(:phone, '.$USER->user_key.'), mail=AES_ENCRYPT(:mail, '.$USER->user_key.'), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note';
+		$query = "insert person set";
+		$query.= " id=:id, user_id=:user_id, name=AES_ENCRYPT(:name, '".$USER->user_key."'), age=:age, phone=AES_ENCRYPT(:phone, '".$USER->user_key."'), mail=AES_ENCRYPT(:mail, '".$USER->user_key."'), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note";
 		$query = self::$db->prepare($query);
 		$query->bindValue(':user_id', $this->user_id);
 		
@@ -37,6 +37,7 @@ class Person
 		$query->bindValue(':is_volunteer', $this->is_volunteer);
 		$query->bindValue(':note', $this->note);
 		$query->bindValue(':id', $this->id);
+
       	return $result = $query->execute();
 	}
 	

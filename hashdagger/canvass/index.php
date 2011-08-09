@@ -4,6 +4,7 @@ require "../../lib/activerecord.php";
 require "../../lib/canvass.php";
 require "../../lib/person.php";
 require "../../lib/user.php";
+Person::$db = $ini['DB'];
 Canvass::$db = $ini['DB'];
 ActiveRecord::$db = $ini['DB'];
 User::$db = $ini['DB'];
@@ -24,8 +25,9 @@ if ($_POST['canvass-begin'] && $_POST['canvass-end']) {
 	$canvass->insert();
 }
 if ($canvass->answered_questions) {
-	$person = new Person;
+	$person = new Person();
 	$person->getData($_POST);
+	$person->user_id = $USER->id;
 	$person->insert();
 	
 	$canvass->talkedTo($person);
