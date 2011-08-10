@@ -71,21 +71,23 @@ class Person
 		global $USER;
 		
 		$persons = Array();
-		$query = 'select id, AES_DECRYPT(name, :user_key) AS name, age, AES_DECRYPT(phone, :user_key1) AS phone';
+		$query = 'select id, login, AES_DECRYPT(name, :user_key) AS name, age, AES_DECRYPT(phone, :user_key1) AS phone';
 		$query.= ', AES_DECRYPT(mail, :user_key2) AS mail, will_vote, for_party, for_independent, opinion, is_supporter, is_volunteer, note, is_user';
-		$query.= ' from person where id=:id AND user_id = :user_id';
+		$query.= ' from person where id=:id';
+		if($USER->id != $person_id) $query.= ' AND user_id = :user_id';
 		
 		$query = self::$db->prepare($query);
 		$query->bindValue(':user_key', $USER->user_key);
 		$query->bindValue(':user_key1', $USER->user_key);
 		$query->bindValue(':user_key2', $USER->user_key);
 		$query->bindValue(':id', $person_id);
-		$query->bindValue(':user_id', $USER->id);
+		if($USER->id != $person_id) $query->bindValue(':user_id', $USER->id);
       	$result = $query->execute();
       	
 		$entry = $query->fetch();
    		$person = new Person();
 		$person->id = $entry['id'];
+		$person->login = $entry['login'];
 		$person->name = $entry['name'];
 		$person->age = $entry['age'];
 		$person->phone = $entry['phone'];
@@ -98,8 +100,8 @@ class Person
 		$person->is_volunteer = $entry['is_volunteer'];
 		$person->note = $entry['note'];
 		$person->is_user = $entry['is_user'];
-	   	    
-	    return $person;
+	   
+		return $person;
 	}
 	
 	function getData($data)
@@ -155,9 +157,10 @@ class Person
 	function updatePassword()
 	{
 		 global $USER;
-		 $query = 'UPDATE person SET user_key=AES_ENCRYPT(AES_DECRYPT(creator_key, :creator_password), :user_password), password=:user_password2 WHERE id=:id';
+		 $query = 'UPDATE person SET user_key=AES_ENCRYPT(AES_DECRYPT(creator_key, :creator_password), :user_password), password=:user_password2, login=:login WHERE id=:id';
 		 $query = self::$db->prepare($query);
 		 $query->bindValue(':creator_password', $USER->password);
+		 $query->bindValue(':login', $this->login);
 		 $query->bindValue(':user_password', $this->password);
 		 $query->bindValue(':user_password2', MD5($this->password));
 		 $query->bindValue(':id', $this->id);
