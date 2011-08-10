@@ -16,6 +16,6 @@
 <a href="./search/person/" class="bouton">قائمة الناخبين</a>
 <a href="./enter/canvass/" class="bouton">حشد</a>
 </p>
-<a href="./enter/person/?person_id=<?php echo $USER->id ?>" class="bouton">تغيير معطياتي</a>
+<a href="./enter/password/" class="bouton">تغيير معطياتي</a>
 </body>
 </html>
