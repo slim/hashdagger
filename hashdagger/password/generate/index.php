@@ -6,10 +6,8 @@
 <body dir="rtl">
 <?php
 	require "../../../ini.php";
-	require "../../../lib/activerecord.php";
 	require "../../../lib/person.php";
 	require "../../../lib/user.php";
-	ActiveRecord::$db = $ini['DB'];
 	Person::$db = $ini['DB'];
 	User::$db = $ini['DB'];
 	

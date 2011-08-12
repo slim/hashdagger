@@ -1,12 +1,10 @@
 <?php
 require "../../ini.php";
-require "../../lib/activerecord.php";
 require "../../lib/canvass.php";
 require "../../lib/person.php";
 require "../../lib/user.php";
 Person::$db = $ini['DB'];
 Canvass::$db = $ini['DB'];
-ActiveRecord::$db = $ini['DB'];
 User::$db = $ini['DB'];
 
 $USER = User::httpAuth();
