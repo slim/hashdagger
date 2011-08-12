@@ -20,11 +20,11 @@ class Person
 		
 		global $USER;
 		
-		$query = "insert person set";
-		$query.= " id=:id, user_id=:user_id, name=AES_ENCRYPT(:name, '".$USER->user_key."'), age=:age, phone=AES_ENCRYPT(:phone, '".$USER->user_key."'), mail=AES_ENCRYPT(:mail, '".$USER->user_key."'), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note";
-		$query = self::$db->prepare($query);
+		$query = self::$db->prepare("insert person set id=:id, user_id=:user_id, name=AES_ENCRYPT(:name, :name_key), age=:age, phone=AES_ENCRYPT(:phone, :phone_key), mail=AES_ENCRYPT(:mail, :mail_key), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note");
+		$query->bindValue(':name_key', $USER->user_key);
+		$query->bindValue(':mail_key', $USER->user_key);
+		$query->bindValue(':phone_key', $USER->user_key);
 		$query->bindValue(':user_id', $this->user_id);
-		
 		$query->bindValue(':name', $this->name);
 		$query->bindValue(':age', $this->age);
 		$query->bindValue(':phone', $this->phone);
@@ -45,10 +45,11 @@ class Person
 	{
 		global $USER;
 		
-		$query = "update person set";
-		$query.= " name=AES_ENCRYPT(:name, '".$USER->user_key."'), age=:age, phone=AES_ENCRYPT(:phone, '".$USER->user_key."'), mail=AES_ENCRYPT(:mail, '".$USER->user_key."'), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note WHERE id=:id";
-		$query = self::$db->prepare($query);
+		$query = self::$db->prepare("update person set name=AES_ENCRYPT(:name, :name_key), age=:age, phone=AES_ENCRYPT(:phone, :phone_key), mail=AES_ENCRYPT(:mail, :mail_key), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note WHERE id=:id");
 		
+		$query->bindValue(':name_key', $USER->user_key);
+		$query->bindValue(':mail_key', $USER->user_key);
+		$query->bindValue(':phone_key', $USER->user_key);
 		$query->bindValue(':name', $this->name);
 		$query->bindValue(':age', $this->age);
 		$query->bindValue(':phone', $this->phone);
