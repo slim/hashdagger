@@ -1,7 +1,5 @@
 <?php
 
-require_once "activerecord.php";
-
 class Person
 {
 	static $table;
@@ -211,4 +209,4 @@ class Person
 	    return $persons;
 	}
 
-} Person::$table = new ActiveRecord("person", "Person");
+}
