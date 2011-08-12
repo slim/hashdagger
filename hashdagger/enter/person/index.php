@@ -32,8 +32,8 @@
   <p>
   <label>السم و اللقب<input class="required" name="person-name" id="name" type="text" value="<?php echo $person->name; ?>" /></label>
   <label>العمر<input class="digits" name="person-age" id="age" type="text" value="<?php echo $person->age ?>" /></label>
-  <label>الهاتف<input dir="ltr" class="digits" name="phone" id="phone" type="text" value="<?php echo $person->phone ?>" /></label>
-  <label>البريد الالكتروني<input dir="ltr" class="email" name="email" id="email" type="text" value="<?php echo $person->mail ?>" /></label>
+  <label>الهاتف<input dir="ltr" class="digits" name="phone" id="phone" type="text" value="<?php echo $person->phone ?>" onBlur="testExistPhone(this)" /></label>
+  <label>البريد الالكتروني<input dir="ltr" class="email" name="email" id="email" type="text" value="<?php echo $person->mail ?>" onBlur="testExistMail(this)" /></label>
   </p>
   </fieldset>
 
@@ -52,15 +52,8 @@
   </fieldset>
   <?php if($_GET["person_id"]) { ?>
   <input type="hidden" name="person_id" value="<?php echo $_GET['person_id'] ?>" />
-  <?php if($person->id === $USER->id) {?>
+  <?php if (isChecked($person->is_user)) { ?>
   <fieldset>
-  <legend>مستعمل البرنامج</legend>
-	<label>إسم التسجيل <input name="login" id="login" class="required" type="text" value="<?php echo $person->login ?>" /></label>
-	<label>كلمة السر<input name="password" id="password" type="password" value="" /></label>
-	<label>كلمة السر مرةً أخرى<input name="password2" id="password2" type="password" value="" /></label>
-  <?php } else if (isChecked($person->is_user)) { ?>
-  <fieldset>
-  <legend>مستعمل البرنامج </legend>
     <div>
   	هذا الشخص يستعمل البرنامج
   	</div>
