@@ -17,6 +17,7 @@ $USER = User::httpAuth();
 	$person = new Person();
 	$person->getData($_POST);
 	$person->user_id = $USER->id;
+	$person->user_key = $USER->user_key;
 	if (!$person->name && !($person->phone || $person->email)) die("<div class='message_erreur'>المعطيات غير كافية للتسجيل</div>");
 	if($person->id)
 		$person->update();

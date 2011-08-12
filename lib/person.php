@@ -44,7 +44,7 @@ class Person
 		global $USER;
 		
 		$query = self::$db->prepare("update person set name=AES_ENCRYPT(:name, :name_key), age=:age, phone=AES_ENCRYPT(:phone, :phone_key), mail=AES_ENCRYPT(:mail, :mail_key), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note WHERE id=:id");
-		
+		$query = self::$db->prepare($query);
 		$query->bindValue(':name_key', $USER->user_key);
 		$query->bindValue(':mail_key', $USER->user_key);
 		$query->bindValue(':phone_key', $USER->user_key);
@@ -135,11 +135,13 @@ class Person
 		 $this->login = $this->mail;
 		 $this->password = substr(uniqid(), -5);
 		 $this->user_key = substr(uniqid(), -16);
+		 
 		 $query = 'update person set';
 		 
 		 if($this->login && $this->password)
 			$query.= ' login=:login, password=:password, is_user=:is_user, user_key=AES_ENCRYPT(:user_key, :user_password), creator_key=AES_ENCRYPT(:user_key2, :creator_password)';
-		 $query .= ' WHERE id=:id';
+		 $query.= ", name=AES_ENCRYPT(:name, '".$this->user_key."'), phone=AES_ENCRYPT(:phone, '".$this->user_key."'), mail=AES_ENCRYPT(:mail, '".$this->user_key."')";
+		 $query.= ' WHERE id=:id';
 		 
 		 $query = self::$db->prepare($query);
 		 $query->bindValue(':is_user', date('c'));
@@ -149,6 +151,9 @@ class Person
 		 $query->bindValue(':user_key2', $this->user_key);
 		 $query->bindValue(':user_password', $this->password);
 		 $query->bindValue(':creator_password', $USER->password);
+		 $query->bindValue(':name', $this->name);
+		 $query->bindValue(':phone', $this->phone);
+		 $query->bindValue(':mail', $this->mail);
 		 $query->bindValue(':id', $this->id);
 		 $result = $query->execute();
 	}
@@ -177,14 +182,21 @@ class Person
 		global $USER;
 		
 		$persons = Array();
-		$query = 'select id, AES_DECRYPT(name, :user_key) AS name, age, AES_DECRYPT(phone, :user_key1) AS phone';
-		$query.= ', AES_DECRYPT(mail, :user_key2) AS mail, will_vote, for_party, for_independent, opinion, is_supporter, is_volunteer, note, is_user';
+		$query = 'select id';
+		$query.= ', IF(is_user is null, AES_DECRYPT(name, :user_key), AES_DECRYPT(name, AES_DECRYPT(creator_key, :user_password))) AS name';
+		$query.= ', age';
+		$query.= ', IF(is_user is null, AES_DECRYPT(phone, :user_key1), AES_DECRYPT(phone, AES_DECRYPT(creator_key, :user_password2))) AS phone';
+		$query.= ', IF(is_user is null, AES_DECRYPT(mail, :user_key2), AES_DECRYPT(mail, AES_DECRYPT(creator_key, :user_password3))) AS mail';
+		$query.= ', will_vote, for_party, for_independent, opinion, is_supporter, is_volunteer, note, is_user';
 		$query.= ' from person where user_id=:user_id';
 		
 		$query = self::$db->prepare($query);
 		$query->bindValue(':user_key', $USER->user_key);
 		$query->bindValue(':user_key1', $USER->user_key);
 		$query->bindValue(':user_key2', $USER->user_key);
+		$query->bindValue(':user_password', $USER->password);
+		$query->bindValue(':user_password2', $USER->password);
+		$query->bindValue(':user_password3', $USER->password);
 		$query->bindValue(':user_id', $user_id);		
       	$result = $query->execute();
       	
