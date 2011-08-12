@@ -44,7 +44,7 @@ class Person
 		global $USER;
 		
 		$query = self::$db->prepare("update person set name=AES_ENCRYPT(:name, :name_key), age=:age, phone=AES_ENCRYPT(:phone, :phone_key), mail=AES_ENCRYPT(:mail, :mail_key), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note WHERE id=:id");
-		$query = self::$db->prepare($query);
+		
 		$query->bindValue(':name_key', $USER->user_key);
 		$query->bindValue(':mail_key', $USER->user_key);
 		$query->bindValue(':phone_key', $USER->user_key);
@@ -71,24 +71,37 @@ class Person
 		
 		$persons = Array();
 		$query = 'select id, login';
-		$query.= ', IF(is_user is null, AES_DECRYPT(name, :user_key), AES_DECRYPT(name, AES_DECRYPT(creator_key, :user_password))) AS name';
 		$query.= ', age';
-		$query.= ', IF(is_user is null, AES_DECRYPT(phone, :user_key1), AES_DECRYPT(phone, AES_DECRYPT(creator_key, :user_password2))) AS phone';
-		$query.= ', IF(is_user is null, AES_DECRYPT(mail, :user_key2), AES_DECRYPT(mail, AES_DECRYPT(creator_key, :user_password3))) AS mail';
+		if($USER->id != $person_id)
+		{
+			$query.= ', IF(is_user is null, AES_DECRYPT(name, :user_key), AES_DECRYPT(name, AES_DECRYPT(creator_key, :user_password))) AS name';		
+			$query.= ', IF(is_user is null, AES_DECRYPT(phone, :user_key1), AES_DECRYPT(phone, AES_DECRYPT(creator_key, :user_password2))) AS phone';
+			$query.= ', IF(is_user is null, AES_DECRYPT(mail, :user_key2), AES_DECRYPT(mail, AES_DECRYPT(creator_key, :user_password3))) AS mail';
+		}
+		else
+		{
+			$query.= ', AES_DECRYPT(name, :user_key) AS name';		
+			$query.= ', AES_DECRYPT(phone, :user_key1) AS phone';
+			$query.= ', AES_DECRYPT(mail, :user_key2) AS mail';
+		}
 		$query.= ', will_vote, for_party, for_independent, opinion, is_supporter, is_volunteer, note, is_user';
 		$query.= ' from person where id=:id';
-		
-		if($USER->id != $person_id) $query.= ' AND user_id = :user_id';
+		if($USER->id != $person_id)
+			$query.= ' AND user_id = :user_id';
 		
 		$query = self::$db->prepare($query);
+		
 		$query->bindValue(':user_key', $USER->user_key);
 		$query->bindValue(':user_key1', $USER->user_key);
 		$query->bindValue(':user_key2', $USER->user_key);
-		$query->bindValue(':user_password', $USER->password);
-		$query->bindValue(':user_password2', $USER->password);
-		$query->bindValue(':user_password3', $USER->password);
 		$query->bindValue(':id', $person_id);
-		if($USER->id != $person_id) $query->bindValue(':user_id', $USER->id);
+		if($USER->id != $person_id) 
+		{
+			$query->bindValue(':user_id', $USER->id);
+			$query->bindValue(':user_password', $USER->password);
+			$query->bindValue(':user_password2', $USER->password);
+			$query->bindValue(':user_password3', $USER->password);
+		}
 		
       	$result = $query->execute();
       	
@@ -236,8 +249,8 @@ class Person
 		
 		$persons = Array();
 		$query = 'select count(id) AS exist FROM person WHERE';
-		$query.= ' phone = IF(is_user is null, AES_ENCRYPT(:phone, :user_key1), AES_ENCRYPT(:phone2, AES_DECRYPT(creator_key, :user_password)))';
-		$query.= ' OR mail = IF(is_user is null, AES_ENCRYPT(:mail, :user_key), AES_ENCRYPT(:mail2, AES_DECRYPT(creator_key, :user_password2)))';
+		$query.= ' (phone = IF(is_user is null, AES_ENCRYPT(:phone, :user_key1), AES_ENCRYPT(:phone2, AES_DECRYPT(creator_key, :user_password)))';
+		$query.= ' OR mail = IF(is_user is null, AES_ENCRYPT(:mail, :user_key), AES_ENCRYPT(:mail2, AES_DECRYPT(creator_key, :user_password2))))';
 		$query.= ' AND user_id = :user_id';
 		if($this->id)
 			$query.= ' AND id != :id';
@@ -253,8 +266,7 @@ class Person
 		$query->bindValue(':user_password', $USER->password);
 		$query->bindValue(':user_password2', $USER->password);
       	$result = $query->execute();
-      	
-		$entry = $query->fetch();
+      
 		if($entry['exist']) return true;
 		else return false;	
 	}
