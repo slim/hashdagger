@@ -31,22 +31,24 @@
 	
 </head>
 <body dir="rtl">
-<h1>حشد</h1>
+<div id="entete" style="background: white; box-shadow: 0 0 8px rgb(0,0,0)">
+<img src="../../png/afkar-89x100.png" />
+</div>
 
  <form action="../../canvass/" method="post">
   <fieldset><legend>حشد</legend>
   <p>
-  <label>البداية <input dir="ltr" name="canvass-begin" id="canvass-begin" type="text" /></label>
-  <label>النهاية <input dir="ltr" name="canvass-end" id="canvass-end" type="text" /></label>
+  <label>البداية <input dir="ltr" name="canvass-begin" id="canvass-begin" type="text" size="15" /></label>
+  <label>النهاية <input dir="ltr" name="canvass-end" id="canvass-end" type="text" size="15" /></label>
   </p>
   <fieldset><legend>المنزل</legend>
   <p>
   <label>المنطقة<input name="region" type="text" /></label>
   <label>الدائرة<input name="round" type="text" /></label>
   <label>النهج<input name="street" type="text" /></label>
-  <label>رقم البناية<input name="building-num" type="text" /></label>
-  <label>الطابق<input name="level-num" type="text" /></label>
-  <label>الشقة/المنزل<input name="house-num" type="text" /></label>
+  <label>رقم البناية<input name="building-num" type="text" size="3" /></label>
+  <label>الطابق<input name="level-num" type="text" size="3" /></label>
+  <label>الشقة/المنزل<input name="house-num" type="text" size="3" /></label>
   </p>
   </fieldset>
   <p>
@@ -59,8 +61,8 @@
   <fieldset><legend>شخص</legend>
   <p>
   <label>السم و اللقب<input name="person-name" type="text" /></label>
-  <label>العمر<input name="person-age" type="text" /></label>
-  <label>الهاتف<input dir="ltr" name="phone" type="text" /></label>
+  <label>العمر<input name="person-age" type="text" size="3" /></label>
+  <label>الهاتف<input dir="ltr" name="phone" type="text" size="11" /></label>
   <label>البريد الالكتروني<input dir="ltr" name="email" type="text" /></label>
   </p>
   </fieldset>
