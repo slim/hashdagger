@@ -22,6 +22,9 @@
 	
 </head>
 <body dir="rtl">
+<div id="entete" style="background: white; box-shadow: 0 0 8px rgb(0,0,0)">
+<img src="../../png/afkar-89x100.png" />
+</div>
  <form id="form_password" action="../../password/modify/" method="post">
     
   <fieldset>
