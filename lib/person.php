@@ -70,17 +70,26 @@ class Person
 		global $USER;
 		
 		$persons = Array();
-		$query = 'select id, login, AES_DECRYPT(name, :user_key) AS name, age, AES_DECRYPT(phone, :user_key1) AS phone';
-		$query.= ', AES_DECRYPT(mail, :user_key2) AS mail, will_vote, for_party, for_independent, opinion, is_supporter, is_volunteer, note, is_user';
+		$query = 'select id, login';
+		$query.= ', IF(is_user is null, AES_DECRYPT(name, :user_key), AES_DECRYPT(name, AES_DECRYPT(creator_key, :user_password))) AS name';
+		$query.= ', age';
+		$query.= ', IF(is_user is null, AES_DECRYPT(phone, :user_key1), AES_DECRYPT(phone, AES_DECRYPT(creator_key, :user_password2))) AS phone';
+		$query.= ', IF(is_user is null, AES_DECRYPT(mail, :user_key2), AES_DECRYPT(mail, AES_DECRYPT(creator_key, :user_password3))) AS mail';
+		$query.= ', will_vote, for_party, for_independent, opinion, is_supporter, is_volunteer, note, is_user';
 		$query.= ' from person where id=:id';
+		
 		if($USER->id != $person_id) $query.= ' AND user_id = :user_id';
 		
 		$query = self::$db->prepare($query);
 		$query->bindValue(':user_key', $USER->user_key);
 		$query->bindValue(':user_key1', $USER->user_key);
 		$query->bindValue(':user_key2', $USER->user_key);
+		$query->bindValue(':user_password', $USER->password);
+		$query->bindValue(':user_password2', $USER->password);
+		$query->bindValue(':user_password3', $USER->password);
 		$query->bindValue(':id', $person_id);
 		if($USER->id != $person_id) $query->bindValue(':user_id', $USER->id);
+		
       	$result = $query->execute();
       	
 		$entry = $query->fetch();
@@ -221,4 +230,83 @@ class Person
 	    return $persons;
 	}
 
+	function exist()
+	{
+		global $USER;
+		
+		$persons = Array();
+		$query = 'select count(id) AS exist FROM person WHERE';
+		$query.= ' phone = IF(is_user is null, AES_ENCRYPT(:phone, :user_key1), AES_ENCRYPT(:phone2, AES_DECRYPT(creator_key, :user_password)))';
+		$query.= ' OR mail = IF(is_user is null, AES_ENCRYPT(:mail, :user_key), AES_ENCRYPT(:mail2, AES_DECRYPT(creator_key, :user_password2)))';
+		$query.= ' AND user_id = :user_id';
+		if($this->id)
+			$query.= ' AND id != :id';
+		$query = self::$db->prepare($query);
+		$query->bindValue(':user_key', $USER->user_key);
+		$query->bindValue(':user_key1', $USER->user_key);
+		$query->bindValue(':phone', $this->phone);
+		$query->bindValue(':phone2', $this->phone);
+		$query->bindValue(':mail', $this->mail);
+		$query->bindValue(':mail2', $this->mail);
+		if($this->id) $query->bindValue(':id', $this->id);
+		$query->bindValue(':user_id', $USER->id);
+		$query->bindValue(':user_password', $USER->password);
+		$query->bindValue(':user_password2', $USER->password);
+      	$result = $query->execute();
+      	
+		$entry = $query->fetch();
+		if($entry['exist']) return true;
+		else return false;	
+	}
+	
+	function existPhone()
+	{
+		global $USER;
+		
+		$persons = Array();
+		$query = 'select count(id) AS exist FROM person WHERE';
+		$query.= ' phone = IF(is_user is null, AES_ENCRYPT(:phone, :user_key1), AES_ENCRYPT(:phone2, AES_DECRYPT(creator_key, :user_password)))';
+		$query.= ' AND user_id = :user_id';
+		if($this->id)
+			$query.= ' AND id != :id';
+		$query = self::$db->prepare($query);
+		
+		$query->bindValue(':user_key1', $USER->user_key);
+		$query->bindValue(':phone', $this->phone);
+		$query->bindValue(':phone2', $this->phone);
+		if($this->id) $query->bindValue(':id', $this->id);
+		$query->bindValue(':user_id', $USER->id);
+		$query->bindValue(':user_password', $USER->password);
+      	$result = $query->execute();
+      	
+		$entry = $query->fetch();
+		if($entry['exist']) return true;
+		else return false;	
+	}
+	
+	function existMail()
+	{
+		global $USER;
+		
+		$persons = Array();
+		$query = 'select count(id) AS exist FROM person WHERE';
+		$query.= ' mail = IF(is_user is null, AES_ENCRYPT(:mail, :user_key), AES_ENCRYPT(:mail2, AES_DECRYPT(creator_key, :user_password2)))';
+		$query.= ' AND user_id = :user_id';
+		if($this->id)
+			$query.= ' AND id != :id';
+		$query = self::$db->prepare($query);
+		$query->bindValue(':user_key', $USER->user_key);
+		$query->bindValue(':mail', $this->mail);
+		$query->bindValue(':mail2', $this->mail);
+		if($this->id) $query->bindValue(':id', $this->id);
+		$query->bindValue(':user_id', $USER->id);
+		$query->bindValue(':user_password2', $USER->password);
+      	$result = $query->execute();
+      	
+		$entry = $query->fetch();
+		if($entry['exist']) return true;
+		else return false;	
+	}
+	
 }
+
