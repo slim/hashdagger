@@ -12,16 +12,12 @@
 	User::$db = $ini['DB'];
 	
 	$USER = User::httpAuth();
-	
-	$user = new Person($USER->id);
-	$user->login = $_POST["login"];
-	$user->password = $_POST["password"];
-	$user->updatePassword();
+	$USER->changePassword($_POST["password"]);
 
 	$message .= "Bonjour et bienvenue,\nVous pouvez vous connecter à votre compte sur: http://hd.afkar.tn/ \n";
-	$message .= "Login: ".$user->login."\nPassword: ".$user->password;
+	$message .= "Login: ".$USER->id."\nPassword: ".$USER->password;
 
-	mail($user->mail, "Afkar - Modification de vos codes d'accès", $message, "From: ".$USER->email);
+	mail($USER->email, "Afkar - Modification de vos codes d'accès", $message, "From: ".$USER->email);
 	print "<div class='message_notification'>تم تغيير كلمة العبور و إعلام الاستخدم بذالك عبر البريد الالكتروني </div><br /><a class='bouton' href='../../'>الرجوع إلى الصفحة الرئيسية</a>";
 ?>
 </body></html>

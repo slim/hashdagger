@@ -1,6 +1,7 @@
 <?php
+	require_once "person.php";
 
-class User
+class User extends Person
 {
     static $db;
     public $id;
@@ -96,10 +97,14 @@ class User
   	
 	public function changePassword($pass)
 	{
-		$id = "'".$this->id."'";
-		$pass = "'$pass'";
-		$query = "update person set password=$pass where login=$id";
-		self::$db->exec($query);
+		 $query = 'UPDATE person SET user_key=AES_ENCRYPT(AES_DECRYPT(user_key, :old_password), :new_password), password=:md5_password, login=:login WHERE id=:id';
+		 $query = self::$db->prepare($query);
+		 $query->bindValue(':old_password', $this->password);
+		 $query->bindValue(':login', $this->login);
+		 $query->bindValue(':new_password', $pass);
+		 $query->bindValue(':md5_password', MD5($pass));
+		 $query->bindValue(':id', $this->id);
+		 $result = $query->execute();
 	}
         
     public function save()		
