@@ -11,6 +11,7 @@ $USER = User::httpAuth();
 $person = new Person();
 $person->user_id = $USER->id;
 $person->user_key = $USER->user_key;
+$person->id = $_GET["person_id"];
 if($_GET["phone"])
 {
 	$person->phone = $_GET["phone"];

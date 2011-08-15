@@ -18,7 +18,7 @@ class Person
 		
 		global $USER;
 		
-		$query = self::$db->prepare("insert person set id=:id, user_id=:user_id, name=AES_ENCRYPT(:name, :name_key), age=:age, phone=AES_ENCRYPT(:phone, :phone_key), mail=AES_ENCRYPT(:mail, :mail_key), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note");
+		$query = self::$db->prepare("insert person set id=:id, user_id=:user_id, name=AES_ENCRYPT(:name, :name_key), age=:age, phone=AES_ENCRYPT(:phone, :phone_key), phone_signature=MD5(:phone), mail=AES_ENCRYPT(:mail, :mail_key), mail_signature=MD5(:mail), will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note");
 		$query->bindValue(':name_key', $USER->user_key);
 		$query->bindValue(':mail_key', $USER->user_key);
 		$query->bindValue(':phone_key', $USER->user_key);
@@ -47,7 +47,7 @@ class Person
 		
 		$query = "update person set"; 
 		$query.= " name=IF(is_user is null, AES_ENCRYPT(:name, :name_key), AES_ENCRYPT(:name2, AES_DECRYPT(creator_key, :name_password)))";
-		$query.= ", age=:age";
+		$query.= ", age=:age, phone_signature=MD5(:phone), mail_signature=MD5(:mail)";
 		$query.= ", phone=IF(is_user is null, AES_ENCRYPT(:phone, :phone_key), AES_ENCRYPT(:phone2, AES_DECRYPT(creator_key, :phone_password)))";
 		$query.= ", mail=IF(is_user is null , AES_ENCRYPT(:mail, :mail_key), AES_ENCRYPT(:mail2, AES_DECRYPT(creator_key, :mail_password)))";
 		$query.= ", will_vote=:will_vote, for_party=:for_party, for_independent=:for_independent, opinion=:opinion, is_supporter=:is_supporter, is_volunteer=:is_volunteer, note=:note WHERE id=:id";
@@ -194,10 +194,11 @@ class Person
 		 $result = $query->execute();
 	}
 	
-	function updatePassword()
+	function updatePassword($key=NULL)
 	{
 		 global $USER;
-		 $query = 'UPDATE person SET user_key=AES_ENCRYPT(AES_DECRYPT(creator_key, :creator_password), :user_password), password=:user_password2, login=:login WHERE id=:id';
+		 if(!$key) $key = "user_key";
+		 $query = 'UPDATE person SET user_key=AES_ENCRYPT(AES_DECRYPT('.$key.', :creator_password), :user_password), password=:user_password2, login=:login WHERE id=:id';
 		 $query = self::$db->prepare($query);
 		 $query->bindValue(':creator_password', $USER->password);
 		 $query->bindValue(':login', $this->login);
@@ -210,7 +211,7 @@ class Person
 	function generatePassword()
 	{
 		 $this->password = substr(uniqid(), -5);
-		 $this->updatePassword();
+		 $this->updatePassword("creator_key");
 	}
 	
 	static function selectByUser($user_id)
@@ -263,22 +264,16 @@ class Person
 		
 		$persons = Array();
 		$query = 'select count(id) AS exist FROM person WHERE';
-		$query.= ' (phone = IF(is_user is null, AES_ENCRYPT(:phone, :user_key1), AES_ENCRYPT(:phone2, AES_DECRYPT(creator_key, :user_password)))';
-		$query.= ' OR mail = IF(is_user is null, AES_ENCRYPT(:mail, :user_key), AES_ENCRYPT(:mail2, AES_DECRYPT(creator_key, :user_password2))))';
-		$query.= ' AND user_id = :user_id';
+		$query.= ' (phone_signature = MD5(:phone)';
+		$query.= ' OR mail_signature = MD5(:mail))';
+		
 		if($this->id)
 			$query.= ' AND id != :id';
 		$query = self::$db->prepare($query);
-		$query->bindValue(':user_key', $USER->user_key);
-		$query->bindValue(':user_key1', $USER->user_key);
 		$query->bindValue(':phone', $this->phone);
-		$query->bindValue(':phone2', $this->phone);
 		$query->bindValue(':mail', $this->mail);
-		$query->bindValue(':mail2', $this->mail);
 		if($this->id) $query->bindValue(':id', $this->id);
-		$query->bindValue(':user_id', $USER->id);
-		$query->bindValue(':user_password', $USER->password);
-		$query->bindValue(':user_password2', $USER->password);
+
       	$result = $query->execute();
       
 		if($entry['exist']) return true;
@@ -291,18 +286,15 @@ class Person
 		
 		$persons = Array();
 		$query = 'select count(id) AS exist FROM person WHERE';
-		$query.= ' phone = IF(is_user is null, AES_ENCRYPT(:phone, :user_key1), AES_ENCRYPT(:phone2, AES_DECRYPT(creator_key, :user_password)))';
-		$query.= ' AND user_id = :user_id';
+		$query.= ' phone_signature = MD5(:phone)';
 		if($this->id)
 			$query.= ' AND id != :id';
+			
 		$query = self::$db->prepare($query);
 		
-		$query->bindValue(':user_key1', $USER->user_key);
 		$query->bindValue(':phone', $this->phone);
-		$query->bindValue(':phone2', $this->phone);
 		if($this->id) $query->bindValue(':id', $this->id);
-		$query->bindValue(':user_id', $USER->id);
-		$query->bindValue(':user_password', $USER->password);
+		
       	$result = $query->execute();
       	
 		$entry = $query->fetch();
@@ -316,17 +308,15 @@ class Person
 		
 		$persons = Array();
 		$query = 'select count(id) AS exist FROM person WHERE';
-		$query.= ' mail = IF(is_user is null, AES_ENCRYPT(:mail, :user_key), AES_ENCRYPT(:mail2, AES_DECRYPT(creator_key, :user_password2)))';
-		$query.= ' AND user_id = :user_id';
+		$query.= ' mail_signature = MD5(:mail)';
 		if($this->id)
 			$query.= ' AND id != :id';
+			
 		$query = self::$db->prepare($query);
-		$query->bindValue(':user_key', $USER->user_key);
+		
 		$query->bindValue(':mail', $this->mail);
-		$query->bindValue(':mail2', $this->mail);
 		if($this->id) $query->bindValue(':id', $this->id);
-		$query->bindValue(':user_id', $USER->id);
-		$query->bindValue(':user_password2', $USER->password);
+		
       	$result = $query->execute();
       	
 		$entry = $query->fetch();
