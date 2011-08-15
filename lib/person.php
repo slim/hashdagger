@@ -36,7 +36,8 @@ class Person
 		$query->bindValue(':note', $this->note);
 		$query->bindValue(':id', $this->id);
 
-      	return $result = $query->execute();
+        $query->execute();
+		return $query;
 	}
 	
 	function update()
