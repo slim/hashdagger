@@ -1,7 +1,7 @@
 function testExistPhone(object)
 {
 	$.get(
-    "../../person/exist/?phone="+object.value,
+    "../../person/exist/?phone="+object.value+"&person_id="+$("#person_id").val(),
     function(data) { if(data) {alert(data); object.value=""; } }
     );
 }
@@ -9,7 +9,7 @@ function testExistPhone(object)
 function testExistMail(object)
 {
 	$.get(
-    "../../person/exist/?mail="+object.value,
+    "../../person/exist/?mail="+object.value+"&person_id="+$("#person_id").val(),
     function(data) { if(data) { alert(data); object.value=""; } }
     );
 }

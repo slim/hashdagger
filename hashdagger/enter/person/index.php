@@ -15,7 +15,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!-- service -->
 <head>
-	<title>Opinion - HashDagger</title> 
+	<title>Person - HashDagger</title> 
 	<link rel="stylesheet" type="text/css" href="../../css/barred.css" />
 	<link rel="stylesheet" type="text/css" href="../../css/wforms.css" />
 	<script type="text/javascript" src="../../js/jquery.min.js"></script>
@@ -52,7 +52,7 @@
   </p>
   </fieldset>
   <?php if($_GET["person_id"]) { ?>
-  <input type="hidden" name="person_id" value="<?php echo $_GET['person_id'] ?>" />
+  <input type="hidden" name="person_id" id="person_id" value="<?php echo $_GET['person_id'] ?>" />
   <?php if (isChecked($person->is_user)) { ?>
   <fieldset>
     <div>
