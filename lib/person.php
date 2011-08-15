@@ -193,10 +193,11 @@ class Person
 		 $result = $query->execute();
 	}
 	
-	function updatePassword()
+	function updatePassword($key=NULL)
 	{
 		 global $USER;
-		 $query = 'UPDATE person SET user_key=AES_ENCRYPT(AES_DECRYPT(creator_key, :creator_password), :user_password), password=:user_password2, login=:login WHERE id=:id';
+		 if(!$key) $key = "user_key";
+		 $query = 'UPDATE person SET user_key=AES_ENCRYPT(AES_DECRYPT('.$key.', :creator_password), :user_password), password=:user_password2, login=:login WHERE id=:id';
 		 $query = self::$db->prepare($query);
 		 $query->bindValue(':creator_password', $USER->password);
 		 $query->bindValue(':login', $this->login);
@@ -209,7 +210,7 @@ class Person
 	function generatePassword()
 	{
 		 $this->password = substr(uniqid(), -5);
-		 $this->updatePassword();
+		 $this->updatePassword("creator_key");
 	}
 	
 	static function selectByUser($user_id)
