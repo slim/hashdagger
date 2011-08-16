@@ -192,6 +192,9 @@ class Person
 		 $query->bindValue(':mail', $this->mail);
 		 $query->bindValue(':id', $this->id);
 		 $result = $query->execute();
+
+		 $user = User::load($this->login);
+		 return $user;
 	}
 	
 	function updatePassword($key=NULL)
