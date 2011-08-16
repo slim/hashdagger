@@ -17,6 +17,7 @@ class TestOfPerson extends UnitTestCase {
 		$this->db = new PDO("mysql:host=localhost;dbname=hashdagger_test", "root");
 		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		Person::$db = $this->db;
+		User::$db = $this->db;
 	}
 
 	function testInsertEncryptsPersonalInfo()
