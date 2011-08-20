@@ -65,5 +65,10 @@ class TestOfPerson extends UnitTestCase {
 		$this->assertEqual($p['password'], md5($USER->password));
 	}
 
-}
+	function testSelect()
+	{
+		list($user) = User::select("where login=?", array("h"));
+		$this->assertEqual($user->name, "First User");
+	}
 
+}

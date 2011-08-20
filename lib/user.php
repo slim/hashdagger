@@ -23,17 +23,11 @@ class User extends Person
       $this->role = NULL;
     }
     
-    public static function sql_select($options = NULL)
-  	{
-  		$query = "select * from person $options";
-  		return $query;
-  	}
-
-  	
-  	public static function select($options = NULL)
+  	public static function select($options = NULL, $variables = NULL)
 	{
-	   $query = self::sql_select($options);	   
-	   $result = self::$db->query($query);
+	   $query = self::$db->prepare("select * from person $options");	   
+	   $query->execute($variables);
+	   $result = $query->fetchAll();
 	   $users = array();
 	   	foreach ($result as $entry) {
 	   		$user = new User($entry['id']);
@@ -72,7 +66,7 @@ class User extends Person
        		$user->mail = $entry['mail'];		          			
 		}
 		else {
-			list($user) = self::select("where login='$id'");
+			list($user) = self::select("where login=?", array($id));
 		}
   		return $user;
   	}
@@ -103,20 +97,6 @@ class User extends Person
       return $this;		   
     }
         
-	function isAuthentic()
-	{
-		$id = $this->id;
-		$password = $this->password;
-		$query = "select login from person where login='$id' and password='".MD5($password)."'";
-      	$result = self::$db->query($query);
-		if (!$result->fetch()) {
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
-	
 	function isOneOf($roles)
 	{
 		if (!is_array($roles)) {
