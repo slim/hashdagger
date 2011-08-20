@@ -22,6 +22,3 @@ else if($_GET["mail"])
 	$person->mail = $_GET["mail"];
 	if($person->existMail()) echo "هذا البريد الالكتروني مستعمل";
 }
-//if (!$person->name && !($person->phone || $person->email)) die("<div class='message_erreur'>المعطيات غير كافية للتسجيل</div>");
-//if($person->exist()) die("<div class='message_erreur'>لا يمكن التسجيل بنفس المعطيات</div>");
-?>

@@ -8,7 +8,7 @@ class User extends Person
     public $password;
     public $role;
     public $name;
-    public $email;
+    public $mail;
     public $user_key;
     
     function __construct($id=NULL)
@@ -21,24 +21,8 @@ class User extends Person
   		
   	  $this->password = NULL;
       $this->name = NULL;
-      $this->email = NULL;
+      $this->mail = NULL;
       $this->role = NULL;
-    }
-    
-    static function set_db($db, $user = NULL, $password = NULL)
-    {
-    		if ($db instanceof PDO) {
-    			self::$db =& $db;
-    		} else {
-    			if (empty($user)) {
-    				self::$db =& new PDO($db);
-    			} else {
-    				self::$db =& new PDO($db, $user, $password);
-    			}
-    		}
-    		self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    		return self::$db;
     }
     
     public static function sql_select($options = NULL)
@@ -61,7 +45,7 @@ class User extends Person
 			if ($entry['role']) {
        			$user->role = $entry['role'];
 			}
-       		$user->email = $entry['mail'];
+       		$user->mail = $entry['mail'];
 
 	   		$users [] = $user;   
 	    }        
@@ -87,7 +71,7 @@ class User extends Person
 			if ($entry['role']) {
        			$user->role = $entry['role'];
 			}
-       		$user->email = $entry['mail'];		          			
+       		$user->mail = $entry['mail'];		          			
 		}
 		else {
 			list($user) = self::select("where login='$id'");

@@ -2,10 +2,22 @@
 
 class Person
 {
-	static $table;
 	public $id;
 	static $db;
 	public $user_key;
+	public $name;
+	public $age;
+	public $phone;
+	public $mail;
+	public $will_vote;
+	public $for_party;
+	public $for_independent;
+	public $opinion;
+	public $is_supporter;
+	public $is_volunteer;
+	public $note;
+	public $is_user;
+	   
 
 	function __construct($id=null)
 	{
@@ -144,7 +156,7 @@ class Person
 		$this->name  = $data['person-name'];
 		$this->age   = $data['person-age'];
 		$this->phone = $data['phone'];
-		$this->mail  = $data['email'];
+		$this->mail  = $data['mail'];
 			
 		if ($data['will-vote']) $this->will_vote = date("c"); else $this->will_vote = null;
 		if ($data['for-party']) $this->for_party = date("c"); else $this->for_party = null;

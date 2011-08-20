@@ -29,11 +29,11 @@ $(function(){
 			login: {
 				minlength: 4
 			},
-			email: {
+			mail: {
 				required: "#phone:blank"
 			},
 			phone: {
-				required: "#email:blank"
+				required: "#mail:blank"
 			}
 	}
     });

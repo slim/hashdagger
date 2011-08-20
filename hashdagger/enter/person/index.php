@@ -34,7 +34,7 @@
   <label>السم و اللقب<input class="required" name="person-name" id="name" type="text" value="<?php echo $person->name; ?>" /></label>
   <label>العمر<input class="digits" name="person-age" id="age" type="text" size="3" value="<?php echo $person->age ?>" /></label>
   <label>الهاتف<input dir="ltr" class="digits" name="phone" id="phone" type="text" size="11" value="<?php echo $person->phone ?>" onBlur="testExistPhone(this)" /></label>
-  <label>البريد الالكتروني<input dir="ltr" class="email" name="email" id="email" type="text" value="<?php echo $person->mail ?>" onBlur="testExistMail(this)" /></label>
+  <label>البريد الالكتروني<input dir="ltr" class="mail" name="mail" id="mail" type="text" value="<?php echo $person->mail ?>" onBlur="testExistMail(this)" /></label>
   </p>
   </fieldset>
 
