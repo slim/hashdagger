@@ -7,8 +7,6 @@ class User extends Person
     public $id;
     public $password;
     public $role;
-    public $name;
-    public $mail;
     public $user_key;
     
     function __construct($id=NULL)
@@ -89,8 +87,15 @@ class User extends Person
 		 $query->bindValue(':md5_password', MD5($pass));
 		 $query->bindValue(':id', $this->id);
 		 $result = $query->execute();
+		 $this->password = $pass;
+		 return $this;
 	}
         
+	function generatePassword()
+	{
+		 $this->changePassword(substr(uniqid(), -5));
+	}
+
     public function save()		
     {
       $query = $this->toSQLinsert();

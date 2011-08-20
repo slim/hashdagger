@@ -13,10 +13,9 @@
 	
 	$USER = User::httpAuth();
 	
-	$user = new Person($_GET["person_id"]);
-	$user->generatePassword();
+	$USER->generatePassword();
 	$message .= "Bonjour et bienvenue,\nVous pouvez vous connecter à votre compte sur: http://hd.afkar.tn/ \n";
-	$message .= "Login: ".$user->login."\nPassword: ".$user->password;
+	$message .= "Login: ".$USER->id."\nPassword: ".$USER->password;
 
 	mail($user->mail, "Afkar - Vos codes d'accès", $message, "From: ".$USER->mail);
 	print "<div class='message_notification'>تم تغيير كلمة العبور و إعلام الاستخدم بذالك عبر البريد الالكتروني </div><br /><a class='bouton' href='../../'>الرجوع إلى الصفحة الرئيسية</a>";

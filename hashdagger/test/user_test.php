@@ -54,5 +54,16 @@ class TestOfPerson extends UnitTestCase {
 		$this->assertEqual($p['password'], md5('2222'));
 	}
 
+	function testGeneratePassword()
+	{
+		global $USER;
+
+		$USER->generatePassword();
+		$person_id = $USER->id;
+	    $result = $this->db->query("select password from person where id='$person_id'");
+		$p = $result->fetch();
+		$this->assertEqual($p['password'], md5($USER->password));
+	}
+
 }
 

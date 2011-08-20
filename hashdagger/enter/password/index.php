@@ -29,7 +29,6 @@
     
   <fieldset>
   <legend>تغيير كلمة السر</legend>
-	<label>إسم التسجيل <input name="login" id="login" class="required" type="text" value="<?php echo $person->login ?>" /></label>
 	<label>كلمة السر<input name="password" id="password" type="password" value="" /></label>
 	<label>كلمة السر مرةً أخرى<input name="password2" id="password2" type="password" value="" /></label>
     
