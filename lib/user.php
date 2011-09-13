@@ -8,6 +8,7 @@ class User extends Person
     public $password;
     public $role;
     public $user_key;
+	public $person_id;
     
     function __construct($id=NULL)
     {
@@ -23,60 +24,49 @@ class User extends Person
       $this->role = NULL;
     }
     
-  	public static function select($options = NULL, $variables = NULL)
+    static function loadByCreator($id, $password)
 	{
-	   $query = self::$db->prepare("select * from person $options");	   
-	   $query->execute($variables);
-	   $result = $query->fetchAll();
-	   $users = array();
-	   	foreach ($result as $entry) {
-	   		$user = new User($entry['id']);
-	   		$user->login = $entry['login'];
-	   		$user->password = $entry['password'];
-       		$user->name = $entry['name'];
-			if ($entry['role']) {
-       			$user->role = $entry['role'];
-			}
-       		$user->mail = $entry['mail'];
+		$query = self::$db->prepare("select *, AES_DECRYPT(name, AES_DECRYPT(creator_key, :key_password)) as decrypted_name, AES_DECRYPT(mail, AES_DECRYPT(creator_key, :key_password)) as decrypted_mail, AES_DECRYPT(phone, AES_DECRYPT(creator_key, :key_password)) as decrypted_phone, AES_DECRYPT(creator_key, :key_password) AS decrypted_user_key from person where (login=:login)");
+		$query->bindValue(':key_password', $password);
+		$query->bindValue(':login', $id);
+		$query->execute();
+		$entry = $query->fetch();
+		if (!$entry) return NULL;
+		$user = new User($id);
+		$user->person_id = $entry['id'];
+		$user->getDBData($entry);
+		$user->name = $entry['decrypted_name'];
+		$user->user_key = $entry['decrypted_user_key'];
+		$user->mail = $entry['decrypted_mail'];		          			
+		$user->phone = $entry['decrypted_phone'];
+  		return $user;
+  	}
 
-	   		$users [] = $user;   
-	    }        
-	    return $users;
-    }
-
-    
-    
-    static function load($id, $password = NULL)
+    static function load($id, $password)
   	{
-		if ($password) {
-			$query = self::$db->prepare("select id, login, password, AES_DECRYPT(name, AES_DECRYPT(user_key, :key_password)) as name, AES_DECRYPT(mail, AES_DECRYPT(user_key, :key_password)) as mail, AES_DECRYPT(user_key, :key_password) AS user_key from person where (login=:login) and password=MD5(:password)");
-			$query->bindValue(':key_password', $password);
-			$query->bindValue(':password', $password);
-			$query->bindValue(':login', $id);
-			$query->execute();
-		    $entry = $query->fetch();
-			if (!$entry) return NULL;
-	   		$user = new User($entry['id']);
-	   		$user->login = $entry['login'];
-       		$user->name = $entry['name'];
-       		$user->user_key = $entry['user_key'];
-			if ($entry['role']) {
-       			$user->role = $entry['role'];
-			}
-       		$user->mail = $entry['mail'];		          			
-		}
-		else {
-			list($user) = self::select("where login=?", array($id));
-		}
+		$query = self::$db->prepare("select *, AES_DECRYPT(name, AES_DECRYPT(user_key, :key_password)) as decrypted_name, AES_DECRYPT(mail, AES_DECRYPT(user_key, :key_password)) as decrypted_mail, AES_DECRYPT(phone, AES_DECRYPT(user_key, :key_password)) as decrypted_phone, AES_DECRYPT(user_key, :key_password) AS decrypted_user_key from person where (login=:login) and password=MD5(:password)");
+		$query->bindValue(':key_password', $password);
+		$query->bindValue(':password', $password);
+		$query->bindValue(':login', $id);
+		$query->execute();
+		$entry = $query->fetch();
+		if (!$entry) return NULL;
+		$user = new User($id);
+		$user->person_id = $entry['id'];
+		$user->getDBData($entry);
+		$user->password = $password;
+		$user->name = $entry['decrypted_name'];
+		$user->user_key = $entry['decrypted_user_key'];
+		$user->mail = $entry['decrypted_mail'];		          			
+		$user->phone = $entry['decrypted_phone'];
   		return $user;
   	}
   	
 	public function changePassword($pass)
 	{
-		 $query = 'UPDATE person SET user_key=AES_ENCRYPT(AES_DECRYPT(user_key, :old_password), :new_password), password=:md5_password, login=:login WHERE id=:id';
+		 $query = 'UPDATE person SET user_key=AES_ENCRYPT(:user_key, :new_password), password=:md5_password WHERE login=:id';
 		 $query = self::$db->prepare($query);
-		 $query->bindValue(':old_password', $this->password);
-		 $query->bindValue(':login', $this->login);
+		 $query->bindValue(':user_key', $this->user_key);
 		 $query->bindValue(':new_password', $pass);
 		 $query->bindValue(':md5_password', MD5($pass));
 		 $query->bindValue(':id', $this->id);
@@ -90,24 +80,6 @@ class User extends Person
 		 $this->changePassword(substr(uniqid(), -5));
 	}
 
-    public function save()		
-    {
-      $query = $this->toSQLinsert();
-      self::$db->exec($query);
-      return $this;		   
-    }
-        
-	function isOneOf($roles)
-	{
-		if (!is_array($roles)) {
-			$roles = array($roles);
-		}
-		foreach ($roles as $r) {
-			if ($this->role == $r) return true;
-		}
-		return false;
-	}
-
 	static function httpAuth($role = NULL)
 	{
 		$login  = $_SERVER['PHP_AUTH_USER'];
@@ -116,7 +88,7 @@ class User extends Person
 		if ($login && "nobody" != $login && $password) {
 			$user = User::load($login, $password);
 			$user->password = $password;
-			if ($user instanceof User && $user->isOneOf($role)) {
+			if ($user instanceof User) {
 				return $user;
 			}
 		}
@@ -127,20 +99,4 @@ class User extends Person
 		@include "unauthorized.html";
 		die();
 	}
-
-	static function sessionAuth($role = NULL)
-	{
-		global $conf;
-		
-		$login_url = $conf['url_login'];
-		$here = "http://". $_SERVER['SERVER_NAME'] ."/". $_SERVER['REQUEST_URI'];
-		if ($_SESSION['user_id']) {
-			$user = User::load($_SESSION['user_id']);
-			if ($user instanceof User && $user->isOneOf($role)) {
-				return $user;
-			}
-		}
-		header("Location: $login_url?c=$here", 302);die();
-	}
-     	
 }

@@ -14,11 +14,11 @@
 	$USER = User::httpAuth();
 	
 	$person = Person::selectById($_GET["person_id"]);
-	$person->becomeUser();
+	$u = $person->becomeUser();
 	$message .= "Bonjour et bienvenue,\nVous pouvez vous connecter à votre compte sur: http://hd.afkar.tn/ \n";
-	$message .= "Login: ".$person->login."\nPassword: ".$person->password;
+	$message .= "Login: ".$u->login."\nPassword: ".$u->password;
 
-	mail($person->mail, "Afkar - Vos codes d'accès", $message, "From: ".$USER->mail);
-	print "<div class='message_notification'>تم إنشاء المستخدم و اعلامه عبر البريد الإلكتروني </div><br /><<a class='bouton' href='../../'>الرجوع إلى الصفحة الرئيسية</a>";
+	mail($u->mail, "Afkar - Vos codes d'accès", $message, "From: ".$USER->mail);
+	print "<div class='message_notification'>تم إنشاء المستخدم و اعلامه عبر البريد الإلكتروني </div><br /><a class='bouton' href='../../'>الرجوع إلى الصفحة الرئيسية</a>";
 ?>
 </body></html>

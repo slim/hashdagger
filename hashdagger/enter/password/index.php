@@ -1,17 +1,4 @@
-<?php 
-	require "../../../includes/util.php";
-	require "../../../ini.php";
-	require "../../../lib/person.php";
-	require "../../../lib/user.php";
-	Person::$db = $ini['DB'];
-	User::$db = $ini['DB'];	
-	$USER = User::httpAuth();
-	
-	$person = Person::selectById($USER->id);
-
-?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<!-- service -->
 <head>
 	<title>Modify password - HashDagger</title> 
 	<link rel="stylesheet" type="text/css" href="../../css/barred.css" />

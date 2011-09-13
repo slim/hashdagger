@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `canvass` (
 CREATE TABLE IF NOT EXISTS `person` (
   `id` varchar(50) NOT NULL,
   `user_id` varchar(50) NOT NULL,
-  `login` varchar(50) NOT NULL,
+  `login` varchar(50) DEFAULT NULL,
   `password` varchar(50) NOT NULL,
   `is_user` datetime DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
@@ -47,4 +47,4 @@ CREATE TABLE IF NOT EXISTS `person` (
   PRIMARY KEY (`id`)
 );
 
-insert into person (id, name, login, password, is_user, user_key) values (1, "First User", "h", md5('mosta9ella'), now(), aes_encrypt('mefta7', 'mosta9ella'));
+insert into person (id, name, login, password, is_user, user_key) values (1, aes_encrypt('Anonymous','mefta7'), "anon", md5('We are legion'), now(), aes_encrypt('mefta7', 'We are legion'));

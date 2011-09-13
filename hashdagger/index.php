@@ -20,7 +20,7 @@
 </p>
 </div>
 <p>
-<a href="./enter/person/?person_id=<?php echo $USER->id ?>" class="bouton">تغيير معطياتي</a>
+<a href="./enter/person/?person_id=<?php echo $USER->person_id ?>" class="bouton">تغيير معطياتي</a>
 <a href="./enter/password/" class="bouton">تغيير كلمة السر</a>
 <p>
 </body>

@@ -3,7 +3,14 @@
 	require_once "../../lib/person.php";
 	require_once "../../lib/user.php";
 
+		$DB = new PDO("mysql:host=localhost;dbname=hashdagger_test", "root");
+		$DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		Person::$db = $DB;
+		User::$db = $DB;
+
+	$DB->query("delete from person");
 	$USER = new User;
+	$USER->name = "Anonymous";
 	$USER->user_key = "1234567890123456";
 	$USER->password = "6543210987654321";
 	$PERSON = new Person;
@@ -14,10 +21,9 @@
 class TestOfPerson extends UnitTestCase {
 	function setUp()
 	{
-		$this->db = new PDO("mysql:host=localhost;dbname=hashdagger_test", "root");
-		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-		Person::$db = $this->db;
-		User::$db = $this->db;
+		global $DB;
+
+		$this->db = $DB;
 	}
 
 	function testInsertEncryptsPersonalInfo()
@@ -36,10 +42,23 @@ class TestOfPerson extends UnitTestCase {
 		global $USER, $PERSON;
 
 		$p = Person::selectById($PERSON->id);
+		$this->assertNotNull($p->id);
 		$this->assertEqual($p->name, "Slim Amamou");
 
 		list($p) = Person::selectByUser($PERSON->user_id);
+		$this->assertNotNull($p->id);
 		$this->assertEqual($p->name, "Slim Amamou");
+
+	}
+
+	function testSelectMyself()
+	{
+		global $USER;
+
+		$p = Person::selectById($USER->person_id);
+		$this->assertIsA($p, 'User');
+		$this->assertEqual($p->id, $USER->id);
+		$this->assertNotNull($p->name);
 
 	}
 
@@ -59,11 +78,14 @@ class TestOfPerson extends UnitTestCase {
 	{
 		global $USER, $PERSON;
 
-		$PERSON->becomeUser();
+		$u = $PERSON->becomeUser();
+		$this->assertNotNull($u->password); 
+		$this->assertEqual($u->person_id, $PERSON->id);
+
 		$creator_password = $USER->password;
-		$person_password = $PERSON->password;
+		$user_password = $u->password;
 		$person_id = $PERSON->id;
-	    $result = $this->db->query("select is_user, login, aes_decrypt(user_key, '$person_password') as user_key, aes_decrypt(creator_key, '$creator_password') as creator_key from person where id='$person_id'");
+	    $result = $this->db->query("select is_user, login, aes_decrypt(user_key, '$user_password') as user_key, aes_decrypt(creator_key, '$creator_password') as creator_key from person where id='$person_id'");
 		$p = $result->fetch();
 		$this->assertNotNull($p['is_user']); 
 		$this->assertEqual($p['login'], "slim.amamou@gmail.com"); 
