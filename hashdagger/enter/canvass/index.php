@@ -41,7 +41,7 @@
   <label>البداية <input dir="ltr" name="canvass-begin" id="canvass-begin" type="text" size="15" /></label>
   <label>النهاية <input dir="ltr" name="canvass-end" id="canvass-end" type="text" size="15" /></label>
   </p>
-  <fieldset><legend>المنزل</legend>
+  <fieldset><legend>المكان</legend>
   <p>
   <label>المنطقة<input name="region" type="text" /></label>
   <label>الدائرة<input name="round" type="text" /></label>
@@ -52,8 +52,8 @@
   </p>
   </fieldset>
   <p>
-  <label>فتح الباب و التجاوب<input name="answered-questions" type="checkbox" /></label>
-  <label>لا يوجد أحد في المنزل<input name="door-closed" type="checkbox" /></label>
+  <label>فتح الباب و تجاوب<input name="answered-questions" type="checkbox" /></label>
+  <label>لا يوجد أحد في المكان<input name="door-closed" type="checkbox" /></label>
   </p>
   </fieldset>
 
@@ -69,9 +69,9 @@
 
   <fieldset><legend>رأي</legend>
   <p>
-  <label>انتخاب<input name="will-vote" type="checkbox" /></label>
-  <label>الاحزاب<input name="for-party" type="checkbox" /></label>
-  <label>القوائم المستقلة<input name="for-independent" type="checkbox" /></label>
+  <label>سيتفاعل<input name="will-vote" type="checkbox" /></label>
+  <label>معنا<input name="for-independent" type="checkbox" /></label>
+  <label>مع المنافسين<input name="for-party" type="checkbox" /></label>
   <label>لماذا؟<input name="reason" type="text" /></label>
   </p>
   <p>

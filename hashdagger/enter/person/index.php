@@ -40,9 +40,9 @@
 
   <fieldset><legend>رأي</legend>
   <p>
-  <label>انتخاب<input name="will-vote" type="checkbox" <?php if(isChecked($person->will_vote)) echo 'checked' ?> /></label>
-  <label>الاحزاب<input name="for-party" type="checkbox" <?php if(isChecked($person->for_party)) echo 'checked' ?> /></label>
-  <label>القوائم المستقلة<input name="for-independent" type="checkbox" <?php if(isChecked($person->for_independent)) echo 'checked' ?> /></label>
+  <label>سيتفاعل<input name="will-vote" type="checkbox" <?php if(isChecked($person->will_vote)) echo 'checked' ?> /></label>
+  <label>معنا<input name="for-independent" type="checkbox" <?php if(isChecked($person->for_independent)) echo 'checked' ?> /></label>
+  <label>مع المنافسين<input name="for-party" type="checkbox" <?php if(isChecked($person->for_party)) echo 'checked' ?> /></label>
   <label>لماذا؟<input name="reason" type="text" value="<?php echo $person->opinion ?>" /></label>
   </p>
   <p>

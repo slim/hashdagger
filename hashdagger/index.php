@@ -14,8 +14,8 @@
 <div id="entete" style="background: white; box-shadow: 0 0 8px rgb(0,0,0)">
 <img src="./png/hashdagger-129x100.png" />
 <p style="float:left">
-<a href="./enter/person/" class="bouton">تسجيل ناخب</a>
-<a href="./search/person/" class="bouton">قائمة الناخبين</a>
+<a href="./enter/person/" class="bouton">تسجيل شخص</a>
+<a href="./search/person/" class="bouton">قائمة الأشخاص</a>
 <a href="./enter/canvass/" class="bouton">حشد</a>
 </p>
 </div>
