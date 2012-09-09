@@ -19,7 +19,7 @@
 	</head>
 	<body dir="rtl">
 <div id="entete" style="background: white; box-shadow: 0 0 8px rgb(0,0,0)">
-<img src="../../png/afkar-89x100.png" />
+<img src="../../png/hashdagger-129x100.png" />
 </div>
 	<table>
 	<thead>
