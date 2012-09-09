@@ -15,10 +15,10 @@
 	
 	$person = Person::selectById($_GET["person_id"]);
 	$u = $person->becomeUser();
-	$message .= "Bonjour et bienvenue,\nVous pouvez vous connecter à votre compte sur: http://hd.afkar.tn/ \n";
+	$message .= "Hello,\nYou can connect to your account here: http://hd.pirate.tn \n";
 	$message .= "Login: ".$u->login."\nPassword: ".$u->password;
 
-	mail($u->mail, "Afkar - Vos codes d'accès", $message, "From: ".$USER->mail);
+	mail($u->mail, "HashDagger - New account", $message, "From: ".$USER->mail);
 	print "<div class='message_notification'>تم إنشاء المستخدم و اعلامه عبر البريد الإلكتروني </div><br /><a class='bouton' href='../../'>الرجوع إلى الصفحة الرئيسية</a>";
 ?>
 </body></html>
