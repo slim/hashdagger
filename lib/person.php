@@ -89,6 +89,12 @@ class Person
       	
 	}
 	
+	static function count()
+	{
+		list($count) = self::$db->query("select count(*) from person")->fetch();
+		return $count;
+	}
+
 	static function selectById($person_id)
 	{		
 		global $USER;
