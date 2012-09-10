@@ -80,6 +80,15 @@ class User extends Person
 		 $this->changePassword(substr(uniqid(), -5));
 	}
 
+	function countContacts()
+	{
+		$query = self::$db->prepare("select count(*) from person where user_id=:user_id");
+		$query->bindValue(':user_id', $this->id);
+		$query->execute();
+		list($count) = $query->fetch();
+		return $count;
+	}
+
 	static function httpAuth($role = NULL)
 	{
 		$login  = $_SERVER['PHP_AUTH_USER'];
